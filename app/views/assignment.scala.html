@@ -23,7 +23,7 @@
                         <h4 class="modal-title" style="color:RED;font-weight:BOLD">Add Assignment</h4>
                     </div>
                     <div class="modal-body">
-                        @b3.form(routes.AssignmentController.show) {
+                        @b3.form(routes.AssignmentController.show,'id->"assignmentForm") {
                         @b3.text(assignmentForm("id"), '_label -> "id", 'placeholder -> "id" )
                         @b3.text(assignmentForm("name"), '_label -> "NAME", 'placeholder -> "name" )
                         @b3.text(assignmentForm("date"), '_label -> "DATE", 'placeholder -> "dd-mm-yy" )

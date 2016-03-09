@@ -18,7 +18,6 @@ libraryDependencies ++= Seq(
   "com.github.nscala-time" %% "nscala-time" % "2.10.0",
   "com.adrianhurt" %% "play-bootstrap" % "1.0-P24-B3-SNAPSHOT",
   "org.postgresql" % "postgresql" % "9.4-1206-jdbc4"
-
 )
 
 
@@ -27,3 +26,4 @@ resolvers += "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repos
 
 //coverageExcludedPackages :="<empty>;router\\..*;"
 resolvers += "scalaz-bintray" at "http://dl.bintray.com/scalaz/releases"
+javaOptions in Test += "-Dconfig.file=conf/test.conf"

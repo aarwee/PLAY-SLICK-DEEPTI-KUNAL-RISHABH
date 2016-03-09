@@ -54,7 +54,7 @@
                 <h4 class="modal-title" style="color:RED;font-weight:BOLD">Add Language</h4>
             </div>
             <div class="modal-body">
-                @b3.form(routes.LanguageController.add) {
+                @b3.form(routes.LanguageController.add,'id->"languageForm") {
                 @b3.text(langForm("name"), '_label -> "NAME", 'placeholder -> "name" )
                 @b3.text(langForm("fluency"), '_label -> "FLUENCY", 'placeholder -> "Fluency" )
                 <center>@b3.submit('class -> "btn btn-success"){ Add  }</center>

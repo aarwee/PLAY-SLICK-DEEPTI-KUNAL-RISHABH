@@ -1,6 +1,5 @@
 package models
 
-
 import com.google.inject.Inject
 import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
 import slick.driver.JdbcProfile
@@ -54,8 +53,8 @@ trait LanguageTable  {
 
   class LanguageTable(tag:Tag) extends Table[Language](tag,"language"){
     val id = column[Int]("id", O.PrimaryKey, O.AutoInc)
-    val name = column[String]("description", O.SqlType("VARCHAR(200)"))
-    val fluency = column[String]("year", O.SqlType("VARCHAR(20)"))
+    val name = column[String]("name", O.SqlType("VARCHAR(200)"))
+    val fluency = column[String]("fluency", O.SqlType("VARCHAR(20)"))
     val userId = column[Int]("user_id")
     def * = (name,fluency,userId,id) <>(Language.tupled, Language.unapply)
 

@@ -4,19 +4,6 @@ if (window.console) {
 
 $(document).ready(function(){
 
-
-    $("#addaward").click(function(){
-       var data = {"id":parseInt($("#id").val()),"userId":$("#userId").val(),"name":$("#name").val(),"year":$("#year"),"description":$("#description").val()};
-               $.ajax({
-                           type : 'POST',
-                           url : "add",
-                           dataType : "text/plain",
-                           data : data
-                       });
-                $("#myModal").modal('hide');
-});
-});
-
 $('#awardForm').on('submit',function(e){
     e.preventDefault();
     $.ajax({
@@ -24,10 +11,42 @@ $('#awardForm').on('submit',function(e){
         cache    : false,
         url      : $(this).attr('action'),
         data     : $(this).serialize(),
-        success  : function(data) {
-            alert(data);
-        }
+
+                $("#myModal").modal('hide');
+
     });
 
 });
+
+$('#assignmentForm').on('submit',function(e){
+    e.preventDefault();
+    $.ajax({
+        type     : "POST",
+        cache    : false,
+        url      : $(this).attr('action'),
+        data     : $(this).serialize(),
+
+
+                $("#myModal").modal('hide');
+
+    });
+
+});
+$('#languageForm').on('submit',function(e){
+    e.preventDefault();
+    $.ajax({
+        type     : "POST",
+        cache    : false,
+        url      : $(this).attr('action'),
+        data     : $(this).serialize(),
+
+                $("#myModal").modal('hide');
+
+    });
+
+});
+
+});
+
+
 
