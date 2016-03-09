@@ -29,8 +29,16 @@ class AwardsRepo @Inject()(protected val dbConfigProvider:DatabaseConfigProvider
     db.run{awardsTable.schema.create}
   }
   def add(name:String,description:String,year:String,userId:Int) = {
-
     db.run{awardsTable.returning(awardsTable.map(_.id))  += Awards(name, description,year,userId)}
+  }
+
+  def delete(id:Int):Future[Int] ={
+    db.run{awardsTable.filter{_.id === id}.delete}
+  }
+ def update(id:Int,name:String,description:String,year:String,userId:Int):Future[Int] =
+  {
+    db.run{ awardsTable.filter(_.id === id).update(Awards(name,description,year,userId,id))}
+
   }
 
 

@@ -1,7 +1,45 @@
-@(param:String)(langForm:Form[(String,String,String)])(implicit msg:Messages)
+@(param:String)(list:List[Language])(langForm:Form[(String,String)])(updateForm:Form[(String,String,String)])(implicit msg:Messages)
 @import b3.vertical.fieldConstructor
 @views.html.main("Language"){
-<table class="table">  <tr> <td>ID</td><td>NAME</td><td>FLUENCY</td><td>UPDATE</td><td>DELETE</td>  </tr> </table>
+<table class="table">  <tr> <td>ID</td><td>NAME</td><td>FLUENCY</td><td>UPDATE</td><td>DELETE</td>  </tr>
+
+
+    @for(a <- list){
+
+<tr><td>@a.id</td>
+    <td>@a.name</td>
+    <td>@a.fluency</td>
+    <td><button type="button" class="btn btn-link " data-toggle="modal" data-target="#myModal1">Update</button></td>
+    <div id="myModal1" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title" Style="color:RED;font-weight:Bold">Update Language</h4>
+                </div>
+                <div class="modal-body">
+                    @b3.form(action=routes.LanguageController.update,'id->"updateForm") {
+                    @b3.text(updateForm("id"), '_label -> "ID", 'placeholder -> "ID",'value -> a.id,'readonly ->true )
+                    @b3.text(updateForm("name"), '_label -> "NAME", 'placeholder -> "NAME",'value -> a.name )
+                    @b3.text(updateForm("fluency"), '_label -> "FLUENCY", 'placeholder -> "fluency",'value -> a.fluency )
+                    <center>@b3.submit('class -> "btn btn-success"){ update }</center>
+                    }
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+    <td><a href="/deletelanguage/@a.id">  delete      </a></td>
+    }
+    </table>
 
 <div class="pull-right"> <button type="button" class="btn btn-info btn-lg " data-toggle="modal" data-target="#myModal">Add Language</button>
 </div>
@@ -16,10 +54,9 @@
                 <h4 class="modal-title" style="color:RED;font-weight:BOLD">Add Language</h4>
             </div>
             <div class="modal-body">
-                @b3.form(routes.LanguageController.show) {
-                @b3.text(langForm("id"), '_label -> "ID", 'placeholder -> "id" )
+                @b3.form(routes.LanguageController.add) {
                 @b3.text(langForm("name"), '_label -> "NAME", 'placeholder -> "name" )
-                @b3.text(langForm("date"), '_label -> "FLUENCY", 'placeholder -> "Fluency" )
+                @b3.text(langForm("fluency"), '_label -> "FLUENCY", 'placeholder -> "Fluency" )
                 <center>@b3.submit('class -> "btn btn-success"){ Add  }</center>
                 }
 

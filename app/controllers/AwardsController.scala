@@ -12,6 +12,7 @@ import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
 import scala.concurrent.duration._
 import scala.concurrent.{Await, Future}
+import play.api.libs.concurrent.Execution.Implicits._
 
 /**
   * Created by knoldus on 8/3/16.
@@ -26,16 +27,25 @@ class AwardsController@Inject()(awardsRepo: AwardsRepo) extends Controller{
     )
   )
 
-  def show = Action { implicit request =>
-//    awardsRepo.create()
-    val result = Await.result(awardsRepo.getAll , 2 second)
-    Ok(views.html.awards("")(result)(awardForm))
+
+  val updateForm= Form(
+    tuple(
+      "id"-> nonEmptyText,
+      "name"-> nonEmptyText,
+      "description"-> nonEmptyText,
+      "year" -> nonEmptyText
+    )
+  )
+
+  def show = Action.async{ implicit request =>
+    awardsRepo.getAll.map{
+      a=> Ok(views.html.awards("")(a)(awardForm)(updateForm))
+    }
   }
 
   def add = Action{ implicit request =>
     val userId = request.session.get("id")
-//    val result = Await.result(awardsRepo.getAll , 2 second)
-//    Ok(views.html.awards("")(result)(awardForm))
+
     awardForm.bindFromRequest.fold(
       badform => BadRequest(""),
       validform => {
@@ -43,5 +53,22 @@ class AwardsController@Inject()(awardsRepo: AwardsRepo) extends Controller{
         Redirect(routes.AwardsController.show)
       }
     )
+  }
+def update   = Action{ implicit request =>
+  val userId = request.session.get("id")
+
+  updateForm.bindFromRequest.fold(
+    baddFOrm =>BadRequest(" "),
+    validForm => { awardsRepo.update(Integer.parseInt(validForm._1),validForm._2, validForm._3,validForm._4,Integer.parseInt(userId.get))
+      Redirect(routes.AwardsController.show)
+    }
+
+  )
+
+}
+
+  def delete(id:String) = Action{
+    awardsRepo.delete(Integer.parseInt(id))
+    Redirect(routes.AwardsController.show)
   }
 }

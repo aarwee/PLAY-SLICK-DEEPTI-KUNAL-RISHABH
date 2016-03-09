@@ -1,0 +1,76 @@
+@(param:String)(list:List[Programming])(awardForm:Form[(String,String)])(updateForm:Form[(String,String,String)])(implicit msg:Messages)
+@import b3.vertical.fieldConstructor
+
+@views.html.main("programming language"){
+
+
+<table class="table">
+    <tr> <td> ID </td><td>NAME</td><td>FLUENCY</td><td>UPDATE</td><td>DELETE</td>  </tr>
+
+    @for(a <- list){
+
+    <tr><td>@a.id</td>
+        <td>@a.name</td>
+        <td>@a.fluency</td>
+        <td><button type="button" class="btn btn-link " data-toggle="modal" data-target="#myModal1">Update</button></td>
+        <div id="myModal1" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title" Style="color:RED;font-weight:Bold">Update Programming Language</h4>
+                    </div>
+                    <div class="modal-body">
+                        @b3.form(action=routes.ProgrammingController.update,'id->"updateForm") {
+                        @b3.text(updateForm("id"), '_label -> "ID", 'placeholder -> "ID",'value -> a.id,'readonly ->true )
+                        @b3.text(updateForm("name"), '_label -> "NAME", 'placeholder -> "NAME",'value -> a.name )
+                        @b3.text(updateForm("fluency"), '_label -> "Fluency", 'placeholder -> "Fluency",'value -> a.fluency )
+                        <center>@b3.submit('class -> "btn btn-success"){ update }</center>
+                        }
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+
+        <td><a href="/deleteprogramming/@a.id">  delete      </a></td>
+        }
+</table>
+
+<div class="pull-right" > <button type="button" class="btn btn-info btn-lg " data-toggle="modal" data-target="#myModal">Add Programming Language</button>
+</div>
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" Style="color:RED;font-weight:Bold">Add Programming Language</h4>
+            </div>
+            <div class="modal-body">
+                @b3.form(action=routes.ProgrammingController.add) {
+                @b3.text(awardForm("name"), '_label -> "NAME", 'placeholder -> "NAME" )
+                @b3.text(awardForm("fluency"), '_label -> "Fluency", 'placeholder -> "Fluency" )
+                <center>@b3.submit('class -> "btn btn-success"){ Add }</center>
+                }
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+}@{param}
