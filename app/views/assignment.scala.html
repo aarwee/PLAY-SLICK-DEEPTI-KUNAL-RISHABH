@@ -1,0 +1,44 @@
+@(param:String)(assignmentForm:Form[(String,String,String,String,String)])(implicit flash:Flash,msg:Messages)
+@import b3.vertical.fieldConstructor
+@views.html.main("assignment"){
+
+
+
+    <table class="table">  <tr>
+        @if(param == "admin"){
+        <td>USER ID</td>
+        }
+        <td> ID</td><td>NAME</td><td>DATE</td><td>MARKS</td><td>REMARKS</td><td>UPDATE</td><td>DELETE</td>  </tr> </table>
+
+    <div class="pull-right"> <button type="button" class="btn btn-info btn-lg " data-toggle="modal" data-target="#myModal">Add Assignemnt</button>
+</div>
+        <!-- Modal -->
+        <div id="myModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title" style="color:RED;font-weight:BOLD">Add Assignment</h4>
+                    </div>
+                    <div class="modal-body">
+                        @b3.form(routes.AssignmentController.show) {
+                        @b3.text(assignmentForm("id"), '_label -> "id", 'placeholder -> "id" )
+                        @b3.text(assignmentForm("name"), '_label -> "NAME", 'placeholder -> "name" )
+                        @b3.text(assignmentForm("date"), '_label -> "DATE", 'placeholder -> "dd-mm-yy" )
+                        @b3.text(assignmentForm("marks"), '_label -> "MARKS", 'placeholder -> "marks" )
+                        @b3.text(assignmentForm("remarks"), '_label -> "REMARKS", 'placeholder -> "remarks" )
+                        <center>@b3.submit('class -> "btn btn-success"){ Add }</center>
+                        }
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+} @{param}

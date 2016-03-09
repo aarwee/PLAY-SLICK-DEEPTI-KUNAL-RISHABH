@@ -1,0 +1,57 @@
+@(param:String)(list:List[Awards])(awardForm:Form[(String,String,String)])(implicit msg:Messages)
+@import b3.vertical.fieldConstructor
+
+<!--<script>-->
+    <!--$function(){-->
+           <!--$("id).click(function(){-->
+                <!--$.ajax({-->
+                    <!--url:"http:localhost:9000/add"-->
+                    <!--type:"POST",-->
+                    <!--data:JSON.stringify(name,description,year),-->
+                    <!--contentType:"application/json",-->
+                    <!--dataTYpe:"json",-->
+                    <!--success:function(data,success){-->
+                        <!---->
+                    <!--}-->
+                <!--});-->
+           <!--});-->
+    <!--}-->
+<!--</script>-->
+@views.html.main("awards"){
+
+
+<table class="table">  <tr> <td> ID </td><td>NAME</td><td>DESCRIPTION</td><td>YEAR</td><td>UPDATE</td><td>DELETE</td>  </tr> </table>
+
+<div class="pull-right" > <button type="button" class="btn btn-info btn-lg " data-toggle="modal" data-target="#myModal">Add Award</button>
+</div>
+
+    <!-- Modal -->
+    <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title" Style="color:RED;font-weight:Bold">Add Award</h4>
+                </div>
+                <div class="modal-body">
+                    @b3.form(routes.AwardsController.add) {
+                    @b3.text(awardForm("name"), '_label -> "NAME", 'placeholder -> "NAME" )
+                    @b3.text(awardForm("description"), '_label -> "DESCRIPTION", 'placeholder -> "DESCRIPTION" )
+                    @b3.text(awardForm("year"), '_label -> "YEAR", 'placeholder -> "YEAR" )
+                    <center>@b3.submit('class -> "btn btn-success", 'id -> "add"){ Add }</center>
+                    }
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+</div>
+
+}@{param}
