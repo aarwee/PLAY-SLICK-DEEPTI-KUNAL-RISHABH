@@ -1,35 +1,37 @@
-@(param:String)(assignmentForm:Form[(String,String,String,String,String)])(implicit flash:Flash,msg:Messages)
+@(param:String)(list:List[Assignment])(assignmentForm:Form[(String,String,Int,String)])(updateForm:Form[(String,String,String,Int,String)])(implicit msg:Messages)
 @import b3.vertical.fieldConstructor
+
 @views.html.main("assignment"){
 
 
+<table id="awards" class="table">
+    <tr> <td> ID </td><td>NAME</td><td>DATE</td><td>MARKS</td><td>REMARKS</td><td>UPDATE</td><td>DELETE</td>  </tr>
 
-    <table class="table">  <tr>
-        @if(param == "admin"){
-        <td>USER ID</td>
-        }
-        <td> ID</td><td>NAME</td><td>DATE</td><td>MARKS</td><td>REMARKS</td><td>UPDATE</td><td>DELETE</td>  </tr> </table>
+    @for(a <- list){
 
-    <div class="pull-right"> <button type="button" class="btn btn-info btn-lg " data-toggle="modal" data-target="#myModal">Add Assignemnt</button>
-</div>
-        <!-- Modal -->
-        <div id="myModal" class="modal fade" role="dialog">
+    <tr><td>@a.id</td>
+        <td>@a.name</td>
+        <td>@a.date</td>
+        <td>@a.marks</td>
+        <td>@a.remarks</td>
+        <td><button type="button" class="btn btn-link " data-toggle="modal" data-target="#assignmentModal">Update</button></td>
+        <div id="assignmentModal" class="modal fade" role="dialog">
             <div class="modal-dialog">
 
                 <!-- Modal content-->
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title" style="color:RED;font-weight:BOLD">Add Assignment</h4>
+                        <h4 class="modal-title" Style="color:RED;font-weight:Bold">Update Award</h4>
                     </div>
                     <div class="modal-body">
-                        @b3.form(routes.AssignmentController.show,'id->"assignmentForm") {
-                        @b3.text(assignmentForm("id"), '_label -> "id", 'placeholder -> "id" )
-                        @b3.text(assignmentForm("name"), '_label -> "NAME", 'placeholder -> "name" )
-                        @b3.text(assignmentForm("date"), '_label -> "DATE", 'placeholder -> "dd-mm-yy" )
-                        @b3.text(assignmentForm("marks"), '_label -> "MARKS", 'placeholder -> "marks" )
-                        @b3.text(assignmentForm("remarks"), '_label -> "REMARKS", 'placeholder -> "remarks" )
-                        <center>@b3.submit('class -> "btn btn-success"){ Add }</center>
+                        @b3.form(action=routes.AssignmentController.update,'id->"assignmentForm") {
+                        @b3.text(updateForm("id"),  'placeholder -> "ID",'id -> "id",'value -> a.id,'readonly ->true,'Style->"display:none"  )
+                        @b3.text(updateForm("name"), '_label -> "NAME", 'placeholder -> "NAME",'value -> a.name ,'id -> "name")
+                        @b3.date(updateForm("date"), '_label -> "date",'id -> "description" ,'placeholder -> "DATE",'value -> a.date )
+                        @b3.number(updateForm("marks"), '_label -> "marks", 'placeholder -> "MARKS", 'value -> a.marks,'id -> "marks" )
+                        @b3.text(updateForm("remarks"), '_label -> "remarks", 'placeholder -> "REMARKS", 'value -> a.remarks,'id -> "remarks" )
+                        <center>@b3.submit('class -> "btn btn-success"){ update }</center>
                         }
 
                     </div>
@@ -41,4 +43,60 @@
             </div>
         </div>
 
-} @{param}
+
+
+        <td><a href="/deleteassignment/@a.id">  delete      </a></td>
+        }
+</table>
+
+<div class="pull-right" > <button type="button" class="btn btn-info btn-lg " data-toggle="modal" data-target="#myModal">Add Assignment</button>
+</div>
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" Style="color:RED;font-weight:Bold">Add Assignment</h4>
+            </div>
+            <div class="modal-body">
+                @b3.form(action=routes.AssignmentController.add,'id->"assignmentForm") {
+                @b3.text(assignmentForm("name"), '_label -> "NAME", 'placeholder -> "NAME",'id -> "name")
+                @b3.text(assignmentForm("date"), '_label -> "date",'id -> "date" ,'placeholder -> "DATE")
+                @b3.text(assignmentForm("marks"), '_label -> "marks", 'placeholder -> "MARKS",'id -> "marks" )
+                @b3.text(assignmentForm("remarks"), '_label -> "remarks", 'placeholder -> "REMARKS",'id -> "remarks" )
+                <center>@b3.submit('class -> "btn btn-success",'id -> "addassignment"){ Add }</center>
+                }
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+}@{param}
+<script>
+$(document).ready(function(){
+
+
+$('#assignmentForm').on('submit',function(e){
+e.preventDefault();
+$.ajax({
+type     : "POST",
+cache    : false,
+url      : $(this).attr('action'),
+data     : $(this).serialize(),
+
+alert("hrllo");
+$("#assignmentModal").modal('hide');
+});
+
+});
+});
+    </script>

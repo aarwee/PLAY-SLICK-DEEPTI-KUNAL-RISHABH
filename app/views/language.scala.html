@@ -21,7 +21,7 @@
                 </div>
                 <div class="modal-body">
                     @b3.form(action=routes.LanguageController.update,'id->"updateForm") {
-                    @b3.text(updateForm("id"), '_label -> "ID", 'placeholder -> "ID",'value -> a.id,'readonly ->true )
+                    @b3.text(updateForm("id"), 'placeholder -> "ID",'value -> a.id,'Style->"display:none")
                     @b3.text(updateForm("name"), '_label -> "NAME", 'placeholder -> "NAME",'value -> a.name )
                     @b3.text(updateForm("fluency"), '_label -> "FLUENCY", 'placeholder -> "fluency",'value -> a.fluency )
                     <center>@b3.submit('class -> "btn btn-success"){ update }</center>
@@ -41,10 +41,10 @@
     }
     </table>
 
-<div class="pull-right"> <button type="button" class="btn btn-info btn-lg " data-toggle="modal" data-target="#myModal">Add Language</button>
+<div class="pull-right"> <button type="button" class="btn btn-info btn-lg " data-toggle="modal" data-target="#languageModal">Add Language</button>
 </div>
 <!-- Modal -->
-<div id="myModal" class="modal fade" role="dialog">
+<div id="languageModal" class="modal fade" role="dialog">
     <div class="modal-dialog">
 
         <!-- Modal content-->
@@ -69,3 +69,22 @@
     </div>
 </div>
 }@{param}
+
+<script>
+$(document).ready(function(){
+
+$('#languageForm').on('submit',function(e){
+e.preventDefault();
+$.ajax({
+type     : "POST",
+cache    : false,
+url      : $(this).attr('action'),
+data     : $(this).serialize(),
+
+$("#languageModal").modal('hide');
+
+});
+
+});
+});
+    </script>

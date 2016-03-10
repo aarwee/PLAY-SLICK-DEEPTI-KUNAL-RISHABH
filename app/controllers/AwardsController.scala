@@ -39,7 +39,7 @@ class AwardsController@Inject()(awardsRepo: AwardsRepo) extends Controller{
 
   def show = Action.async{ implicit request =>
     awardsRepo.getAll.map{
-      a=> Ok(views.html.awards("")(a)(awardForm)(updateForm))
+      list=> Ok(views.html.awards("")(list)(awardForm)(updateForm))
     }
   }
 

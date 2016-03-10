@@ -29,6 +29,7 @@ class LanguageRepo @Inject()(protected val dbConfigProvider:DatabaseConfigProvid
     db.run{languageTable.schema.create}
   }
   def add(name:String,fluency:String,userId:Int) = {
+    print(name,fluency,userId)
     db.run{languageTable.returning(languageTable.map(_.id))  += Language(name,fluency,userId)}
   }
 

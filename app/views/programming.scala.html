@@ -24,7 +24,7 @@
                     </div>
                     <div class="modal-body">
                         @b3.form(action=routes.ProgrammingController.update,'id->"updateForm") {
-                        @b3.text(updateForm("id"), '_label -> "ID", 'placeholder -> "ID",'value -> a.id,'readonly ->true )
+                        @b3.text(updateForm("id"), 'placeholder -> "ID",'value -> a.id,'Style ->"display:none")
                         @b3.text(updateForm("name"), '_label -> "NAME", 'placeholder -> "NAME",'value -> a.name )
                         @b3.text(updateForm("fluency"), '_label -> "Fluency", 'placeholder -> "Fluency",'value -> a.fluency )
                         <center>@b3.submit('class -> "btn btn-success"){ update }</center>
@@ -45,11 +45,11 @@
         }
 </table>
 
-<div class="pull-right" > <button type="button" class="btn btn-info btn-lg " data-toggle="modal" data-target="#myModal">Add Programming Language</button>
+<div class="pull-right" > <button type="button" class="btn btn-info btn-lg " data-toggle="modal" data-target="#programmingModal">Add Programming Language</button>
 </div>
 
 <!-- Modal -->
-<div id="myModal" class="modal fade" role="dialog">
+<div id="programmingModal" class="modal fade" role="dialog">
     <div class="modal-dialog">
 
         <!-- Modal content-->
@@ -59,7 +59,7 @@
                 <h4 class="modal-title" Style="color:RED;font-weight:Bold">Add Programming Language</h4>
             </div>
             <div class="modal-body">
-                @b3.form(action=routes.ProgrammingController.add) {
+                @b3.form(action=routes.ProgrammingController.add,'id->"programmingForm") {
                 @b3.text(awardForm("name"), '_label -> "NAME", 'placeholder -> "NAME" )
                 @b3.text(awardForm("fluency"), '_label -> "Fluency", 'placeholder -> "Fluency" )
                 <center>@b3.submit('class -> "btn btn-success"){ Add }</center>
@@ -74,3 +74,24 @@
     </div>
 </div>
 }@{param}
+<script>
+    $(document).ready(function(){
+
+
+$('#programmingForm').on('submit',function(e){
+    e.preventDefault();
+    $.ajax({
+        type     : "POST",
+        cache    : false,
+        url      : $(this).attr('action'),
+        data     : $(this).serialize(),
+
+                $("#programmingModal").modal('hide');
+
+    });
+
+});
+
+});
+
+</script>

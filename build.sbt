@@ -27,3 +27,4 @@ resolvers += "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repos
 //coverageExcludedPackages :="<empty>;router\\..*;"
 resolvers += "scalaz-bintray" at "http://dl.bintray.com/scalaz/releases"
 
+javaOptions in Test += "-Dconfig.file=conf/test.conf"

@@ -20,11 +20,15 @@ POST    /add                        controllers.AwardsController.add
 GET    /deleteaward/:id              controllers.AwardsController.delete(id)
 POST    /update                        controllers.AwardsController.update
 POST    /updatelanguage                controllers.LanguageController.update
+POST    /updateassignment                controllers.AssignmentController.update
 POST    /addlanguage                    controllers.LanguageController.add
+POST    /addassignment                controllers.AssignmentController.add
 GET    /deletelanguage/:id                controllers.LanguageController.delete(id)
+POST    /deleteassignment/:id              controllers.AssignmentController.delete(id)
 POST    /addprogramming                controllers.ProgrammingController.add
 POST    /updateprogramming              controllers.ProgrammingController.update
 GET     /deleteprogramming/:id          controllers.ProgrammingController.delete(id)
+GET     /deleteassignment/:id          controllers.AssignmentController.delete(id)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)

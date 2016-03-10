@@ -45,7 +45,7 @@ class LanguageController @Inject()(languageRepo: LanguageRepo) extends Controlle
 
     langForm.bindFromRequest.fold(
       badform => BadRequest(""),
-      validform => {
+      validform => { print(validform)
         languageRepo.add(validform._1, validform._2,Integer.parseInt(userId.get))
         Redirect(routes.LanguageController.show)
       }
@@ -55,7 +55,7 @@ class LanguageController @Inject()(languageRepo: LanguageRepo) extends Controlle
     val userId = request.session.get("id")
 
     updateForm.bindFromRequest.fold(
-      baddFOrm =>BadRequest(" "),
+      badForm =>BadRequest(" "),
       validForm => { languageRepo.update(Integer.parseInt(validForm._1),validForm._2, validForm._3,Integer.parseInt(userId.get))
         Redirect(routes.LanguageController.show)
       }
