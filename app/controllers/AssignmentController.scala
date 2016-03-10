@@ -45,35 +45,37 @@ class AssignmentController@Inject()(assignmentRepo: AssignmentRepo) extends Cont
     val dateregex = """^(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])$""".r
     date match {
       case dateregex(day,month,year) => true
-      case _ =>{println("bad"); false}
+      case _ =>false
     }
   }
 
   def show = Action.async{ implicit request =>
 //    assignmentRepo.create()
-    assignmentRepo.getAll.map{list=>Ok(views.html.assignment(" ")(list)(assignmentForm)(updateForm))}
+    assignmentRepo.getAll.map{list=>Ok(views.html.assignment(request.session.get("admin"))(list)(assignmentForm)(updateForm))}
   }
 
-  def add   = Action{ implicit request =>
+  def add   = Action.async{ implicit request =>
     val userId = request.session.get("id")
 
     assignmentForm.bindFromRequest.fold(
-      baddForm =>{print(baddForm);BadRequest(" ")},
-      validForm => {print(validForm); assignmentRepo.add(validForm._1, validForm._2,validForm._3,validForm._4,Integer.parseInt(userId.get))
-        Redirect(routes.AssignmentController.show)
+      baddForm =>Future{BadRequest(" ")},
+      validForm => {
+        assignmentRepo.add(validForm._1, validForm._2, validForm._3, validForm._4, Integer.parseInt(userId.get)).map {
+         a=> Redirect(routes.AssignmentController.show)
+        }
       }
 
     )
 
   }
 
-  def update   = Action{ implicit request =>
+  def update   = Action.async{ implicit request =>
     val userId = request.session.get("id")
 
     updateForm.bindFromRequest.fold(
-      baddFOrm =>BadRequest(" "),
-      validForm => { assignmentRepo.update(Integer.parseInt(validForm._1),validForm._2, validForm._3,validForm._4,validForm._5,Integer.parseInt(userId.get))
-        Redirect(routes.AssignmentController.show)
+      badForm =>Future{BadRequest(" ")},
+      validForm => { assignmentRepo.update(Integer.parseInt(validForm._1),validForm._2, validForm._3,validForm._4,validForm._5,Integer.parseInt(userId.get)).map{
+        a=>Redirect(routes.AssignmentController.show)}
       }
 
     )

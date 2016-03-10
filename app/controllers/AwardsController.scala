@@ -39,28 +39,32 @@ class AwardsController@Inject()(awardsRepo: AwardsRepo) extends Controller{
 
   def show = Action.async{ implicit request =>
     awardsRepo.getAll.map{
-      list=> Ok(views.html.awards("")(list)(awardForm)(updateForm))
+      list=> Ok(views.html.awards(request.session.get("admin"))(list)(awardForm)(updateForm))
     }
   }
 
-  def add = Action{ implicit request =>
+  def add = Action.async{ implicit request =>
     val userId = request.session.get("id")
 
     awardForm.bindFromRequest.fold(
-      badform => BadRequest(""),
+      badform => Future{BadRequest("")},
       validform => {
-        awardsRepo.add(validform._1, validform._2, validform._3, Integer.parseInt(userId.get))
-        Redirect(routes.AwardsController.show)
+        awardsRepo.add(validform._1, validform._2, validform._3, Integer.parseInt(userId.get)).map{
+          a=> Redirect(routes.AwardsController.show)
+        }
+
       }
     )
   }
-def update   = Action{ implicit request =>
+
+def update   = Action.async{ implicit request =>
   val userId = request.session.get("id")
 
   updateForm.bindFromRequest.fold(
-    baddFOrm =>BadRequest(" "),
-    validForm => { awardsRepo.update(Integer.parseInt(validForm._1),validForm._2, validForm._3,validForm._4,Integer.parseInt(userId.get))
-      Redirect(routes.AwardsController.show)
+    baddFOrm =>Future{BadRequest(" ")},
+    validForm => {
+      awardsRepo.update(Integer.parseInt(validForm._1),validForm._2, validForm._3,validForm._4,Integer.parseInt(userId.get)).map{
+      a=>Redirect(routes.AwardsController.show)}
     }
 
   )

@@ -61,7 +61,7 @@
                 <h4 class="modal-title" Style="color:RED;font-weight:Bold">Add Award</h4>
             </div>
             <div class="modal-body">
-                @b3.form(action=routes.AwardsController.show,'id->"awardForm") {
+                @b3.form(action=routes.AwardsController.add,'id->"awardForm") {
                 @b3.text(awardForm("name"), '_label -> "NAME", 'placeholder -> "NAME" )
                 @b3.text(awardForm("description"), '_label -> "DESCRIPTION", 'placeholder -> "DESCRIPTION" )
                 @b3.text(awardForm("year"), '_label -> "YEAR", 'placeholder -> "YEAR" )
@@ -78,23 +78,4 @@
 </div>
 
 }@{param}
-
-<script>
-$(document).ready(function(){
-
-$('#addaward').on('click',function(e){
-e.preventDefault();
-$.ajax({
-type     : "POST",
-cache    : false,
-url      : $(this).attr('action'),
-data     : $(this).serialize(),
-
-$("#awardModal").modal('hide');
-
-});
-
-});
-});
-</script>
 

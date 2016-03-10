@@ -37,27 +37,28 @@ class LanguageController @Inject()(languageRepo: LanguageRepo) extends Controlle
 
   def show = Action.async{ implicit request =>
 //    languageRepo.create()
-    languageRepo.getAll.map{a=>Ok(views.html.language(" ")(a)(langForm)(updateForm))}
+    languageRepo.getAll.map{a=>Ok(views.html.language(request.session.get("admin"))(a)(langForm)(updateForm))}
 
   }
-  def add = Action{ implicit request =>
+  def add = Action.async{ implicit request =>
     val userId = request.session.get("id")
 
     langForm.bindFromRequest.fold(
-      badform => BadRequest(""),
-      validform => { print(validform)
-        languageRepo.add(validform._1, validform._2,Integer.parseInt(userId.get))
-        Redirect(routes.LanguageController.show)
+      badform => Future{BadRequest("")},
+      validform => {
+        languageRepo.add(validform._1, validform._2,Integer.parseInt(userId.get)).map{
+        a=>Redirect(routes.LanguageController.show)}
       }
     )
   }
-  def update   = Action{ implicit request =>
+  def update   = Action.async{ implicit request =>
     val userId = request.session.get("id")
 
     updateForm.bindFromRequest.fold(
-      badForm =>BadRequest(" "),
-      validForm => { languageRepo.update(Integer.parseInt(validForm._1),validForm._2, validForm._3,Integer.parseInt(userId.get))
-        Redirect(routes.LanguageController.show)
+      badForm =>Future{BadRequest(" ")},
+      validForm => {
+        languageRepo.update(Integer.parseInt(validForm._1),validForm._2, validForm._3,Integer.parseInt(userId.get)).map{
+        a=>Redirect(routes.LanguageController.show)}
       }
 
     )
