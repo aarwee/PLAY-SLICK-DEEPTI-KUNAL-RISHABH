@@ -1,0 +1,9 @@
+# --- !Ups
+CREATE table "language" ("name" VARCHAR(50) ,"fluency" VARCHAR(50) ,"user_id" int ,"id" int PRIMARY KEY );
+
+
+# --- !Downs
+Drop table "language";
+
+
+
