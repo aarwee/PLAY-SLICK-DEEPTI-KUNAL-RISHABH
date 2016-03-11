@@ -1,0 +1,156 @@
+@(userList:List[User])(awardsList:List[Awards])(assignmentList:List[Assignment])(languageList:List[Language])(programmingList:List[Programming])(implicit msg:Messages)
+@import b3.vertical.fieldConstructor
+
+@views.html.main("intern"){
+
+
+<table id="awards" class="table">
+    <tr> <td> USERID </td><td>NAME</td><td>ASSIGNMENT</td><td>AWARDS</td><td>LANGUAGE</td><td>PROGRAMMING LANGUAGE</td>  </tr>
+
+    @for(user <- userList){
+
+    <tr><td>@user.id</td>
+        <td>@user.name</td>
+        <td><button type="button" class="btn btn-link " data-toggle="modal" data-target="#viewAssignment">View</button></td>
+        <td><button type="button" class="btn btn-link " data-toggle="modal" value=@user.id data-target="#viewAwards">View</button></td>
+        <td><button type="button" class="btn btn-link " data-toggle="modal" value=@user.id data-target="#viewLanguage">View</button></td>
+        <td><button type="button" class="btn btn-link " data-toggle="modal" value=@user.id data-target="#viewProgramming">View</button></td>
+    </tr>
+    }
+</table>
+
+        <div id="viewAssignment" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title" Style="color:RED;font-weight:Bold">View Assignment</h4>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table">
+                            <tr><td>ID</td><td>NAME</td><td>DATE</td><td>MARKS</td><td>REMARKS</td></tr>
+                            @for(assignment <- assignmentList){
+
+                                <tr>
+                                    <td>@assignment.id</td>
+                                    <td>@assignment.name</td>
+                                    <td>@assignment.date</td>
+                                    <td>@assignment.marks</td>
+                                    <td>@assignment.remarks</td>
+                                    <td><button type="button" class="btn btn-primary ">ADD</button></td>
+                                    <td><button type="button" class="btn btn-primary ">DELETE</button></td>
+
+                                </tr>
+
+                            }
+                        </table>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+<div id="viewAwards" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" Style="color:RED;font-weight:Bold">View Award</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table">
+                    <tr><td>ID</td><td>NAME</td><td>DESCRIPTION</td><td>YEAR</td></tr>
+                    @for(awards <- awardsList){
+                    <tr>
+                        <td>@awards.id</td>
+                        <td>@awards.name</td>
+                        <td>@awards.description</td>
+                        <td>@awards.year</td>
+                    </tr>
+                    }
+                </table>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div id="viewLanguage" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" Style="color:RED;font-weight:Bold">Update Award</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table">
+                    <tr><td>ID</td><td>NAME</td><td>FLUENCY</td></tr>
+                    @for(language <- languageList){
+                    <tr>
+                        <td>@language.id</td>
+                        <td>@language.name</td>
+                        <td>@language.fluency</td>
+                    </tr>
+                    }
+                </table>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div id="viewProgramming" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" Style="color:RED;font-weight:Bold">Update Award</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table">
+                    <tr><td>ID</td><td>NAME</td><td>FLUENCY</td></tr>
+                    @for(programming <- programmingList){
+                    <tr>
+                        <td>@programming.id</td>
+                        <td>@programming.name</td>
+                        <td>@programming.fluency</td>
+                    </tr>
+                    }
+                </table>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+}@{""}
+
+<script>
+    function myfunc(id){
+     alert(id)
+    }
+
+</script>

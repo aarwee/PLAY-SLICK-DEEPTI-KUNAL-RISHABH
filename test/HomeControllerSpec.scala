@@ -26,15 +26,24 @@ class HomeControllerSpec extends Specification {
       status(res) must equalTo(200)
     }
 
-    "validate user" in new WithApplication() {
+
+    "invalid email" in new WithApplication() {
 
       //      when(service.add("hindi","good",1)).thenReturn(Future(1))
 
-      val res=route(FakeRequest(GET,"/validateUser").withFormUrlEncodedBody("email"->"k@k.com","password"->"kunal")).get
+      val res=route(FakeRequest(GET,"/validateUser").withFormUrlEncodedBody("email"->"k","password"->"kunal")).get
 
-      status(res) must equalTo(303)
+      status(res) must equalTo(400)
     }
 
+    "empty password" in new WithApplication() {
+
+      //      when(service.add("hindi","good",1)).thenReturn(Future(1))
+
+      val res=route(FakeRequest(GET,"/validateUser").withFormUrlEncodedBody("email"->"k@k.com","password"->"")).get
+
+      status(res) must equalTo(400)
+    }
 
 
   }

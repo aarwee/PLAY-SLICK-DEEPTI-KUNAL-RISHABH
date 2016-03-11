@@ -21,6 +21,10 @@ class UserRepo @Inject()(protected val dbConfigProvider:DatabaseConfigProvider)
   extends HasDatabaseConfigProvider[JdbcProfile] with UserTable{
   import driver.api._
 
+  def getAll:Future[List[User]] = {
+    db.run{userTable.to[List].result}
+  }
+
   def getUser(email:String): Future[Option[User]] = {
     db.run{userTable.filter(_.email === email).result.headOption}
   }

@@ -24,7 +24,7 @@ libraryDependencies ++= Seq(
 routesGenerator := InjectedRoutesGenerator
 resolvers += "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots/"
 
-//coverageExcludedPackages :="<empty>;router\\..*;"
+coverageExcludedPackages :="<empty>;router\\..*;"
 resolvers += "scalaz-bintray" at "http://dl.bintray.com/scalaz/releases"
 
 javaOptions in Test += "-Dconfig.file=conf/test.conf"

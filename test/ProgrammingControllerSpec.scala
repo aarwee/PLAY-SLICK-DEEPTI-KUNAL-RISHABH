@@ -8,11 +8,11 @@ import play.api.test._
 import scala.concurrent.Future
 
 /**
-  * Created by kunal on 10/3/16.
+  * Created by knoldus on 10/3/16.
   */
 class ProgrammingControllerSpec extends PlaySpecification with Mockito {
   sequential
-  "language Controller " should{
+  "planguage Controller " should{
 
     val service=mock[ProgrammingRepo]
     val controller=new ProgrammingController(service)

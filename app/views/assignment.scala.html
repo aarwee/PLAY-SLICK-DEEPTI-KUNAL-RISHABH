@@ -5,7 +5,7 @@
 
 
 <table id="awards" class="table">
-    <tr> <td> ID </td><td>NAME</td><td>DATE</td><td>MARKS</td><td>REMARKS</td><td>UPDATE</td><td>DELETE</td>  </tr>
+    <tr> <td> ID </td><td>NAME</td><td>DATE</td><td>MARKS</td><td>REMARKS</td>@if(param == "true"){<td>UPDATE</td><td>DELETE</td>}  </tr>
 
     @for(a <- list){
 
@@ -14,7 +14,9 @@
         <td>@a.date</td>
         <td>@a.marks</td>
         <td>@a.remarks</td>
-        <td><button type="button" class="btn btn-link " data-toggle="modal" data-target="#assignmentModal">Update</button></td>
+
+        @if(param =="true"){
+        <td><button class="btn btn-success " data-toggle="modal" data-target="#assignmentModal"><span class="glyphicon glyphicon-ok" aria-hidden="true">Update</span></button></td>
         <div id="assignmentModal" class="modal fade" role="dialog">
             <div class="modal-dialog">
 
@@ -43,16 +45,18 @@
             </div>
         </div>
 
-
-
-        <td><a href="/deleteassignment/@a.id">  delete      </a></td>
-        }
+      }
+@if(param=="true"){
+        <td><a href="/deleteassignment/@a.id"> <button class="btn btn-danger"> <span class="glyphicon glyphicon-remove" aria-hidden="true">Delete </span>  </button>     </a></td>
+        }}
 </table>
 
-<div class="pull-right" > <button type="button" class="btn btn-info btn-lg " data-toggle="modal" data-target="#myModal">Add Assignment</button>
+@if(param == "true"){
+<div class="pull-right" > <button type="button" class="btn btn-info btn-lg " data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-plus" aria-hidden="true">Add Assignment</span></button>
 </div>
 
 <!-- Modal -->
+
 <div id="myModal" class="modal fade" role="dialog">
     <div class="modal-dialog">
 
@@ -79,7 +83,7 @@
 
     </div>
 </div>
-
+}
 }@{param}
 <script>
 $(document).ready(function(){
@@ -99,4 +103,4 @@ $("#assignmentModal").modal('hide');
 
 });
 });
-    </script>
+ </script>
