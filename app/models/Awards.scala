@@ -29,7 +29,7 @@ class AwardsRepo @Inject()(protected val dbConfigProvider:DatabaseConfigProvider
     db.run{awardsTable.schema.create}
   }
   def add(name:String,description:String,year:String,userId:Int) = {
-    db.run{awardsTable.returning(awardsTable.map(_.id))  += Awards(name, description,year,userId)}
+    db.run{awardsTable += Awards(name, description,year,userId)}
   }
 
   def delete(id:Int):Future[Int] ={

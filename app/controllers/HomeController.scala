@@ -36,7 +36,7 @@ class HomeController @Inject()(userRepo: UserRepo) extends Controller {
   def validateUser = Action { implicit request =>
 //    userRepo.create()
     loginForm.bindFromRequest.fold(
-      badform => {
+      badform => {println(badform)
         BadRequest(views.html.home(badform))
       },
       validform => {
@@ -44,10 +44,8 @@ class HomeController @Inject()(userRepo: UserRepo) extends Controller {
         val user: Option[User] = Await.result(userRepo.getUser(validform._1),2 second)
         if (user.isDefined && user.get.password == validform._2)
         {
-          if (user.get.admin)
-          Redirect(routes.DashboardController.show(user.get.admin.toString)).withSession("id"->user.get.id.toString,"admin"->"admin")
-          else
-            Redirect(routes.DashboardController.show(user.get.admin.toString)).withSession("id"->user.get.id.toString,"admin"->"user")
+          Redirect(routes.DashboardController.show).withSession("id"->user.get.id.toString,"admin"->user.get.admin.toString)
+
 
         }
         else {

@@ -30,7 +30,7 @@ class LanguageRepo @Inject()(protected val dbConfigProvider:DatabaseConfigProvid
   }
   def add(name:String,fluency:String,userId:Int) = {
     print(name,fluency,userId)
-    db.run{languageTable.returning(languageTable.map(_.id))  += Language(name,fluency,userId)}
+    db.run{languageTable  += Language(name,fluency,userId)}
   }
 
   def delete(id:Int):Future[Int] ={

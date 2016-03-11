@@ -51,7 +51,7 @@ class AssignmentController@Inject()(assignmentRepo: AssignmentRepo) extends Cont
 
   def show = Action.async{ implicit request =>
 //    assignmentRepo.create()
-    assignmentRepo.getAll.map{list=>Ok(views.html.assignment(request.session.get("admin"))(list)(assignmentForm)(updateForm))}
+    assignmentRepo.getAll.map{list=>Ok(views.html.assignment(request.session.get("admin").get)(list)(assignmentForm)(updateForm))}
   }
 
   def add   = Action.async{ implicit request =>

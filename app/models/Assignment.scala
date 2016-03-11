@@ -24,7 +24,7 @@ class AssignmentRepo @Inject()(protected val dbConfigProvider:DatabaseConfigProv
     db.run{assignmentTable.schema.create}
   }
   def add(name:String,date:String,marks:Int,remarks:String,userId:Int) = {
-    db.run{assignmentTable.returning(assignmentTable.map(_.id))  += Assignment(name, date,marks,remarks,userId)}
+    db.run{assignmentTable += Assignment(name, date,marks,remarks,userId)}
   }
 
   def delete(id:Int):Future[Int] ={

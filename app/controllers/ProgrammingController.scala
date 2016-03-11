@@ -40,7 +40,7 @@ class ProgrammingController @Inject()(programmingrepo: ProgrammingRepo) extends 
   def show = Action.async { implicit request =>
 //    programmingrepo.create()
     programmingrepo.getAll.map {
-      list => Ok(views.html.programming(request.session.get("admin"))(list)(progForm)(updateForm))
+      list => Ok(views.html.programming(request.session.get("admin").get)(list)(progForm)(updateForm))
     }
   }
   def add = Action.async{ implicit request =>

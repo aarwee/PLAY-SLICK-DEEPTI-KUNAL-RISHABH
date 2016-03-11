@@ -10,7 +10,7 @@
 #GET     /message                    controllers.AsyncController.message
 
 GET     /home                       controllers.HomeController.show
-GET     /show/:user                 controllers.DashboardController.show(user:String)
+GET     /show                controllers.DashboardController.show
 GET     /validateUser               controllers.HomeController.validateUser
 GET     /awards                     controllers.AwardsController.show
 GET     /assignment                 controllers.AssignmentController.show

@@ -9,8 +9,8 @@ import play.api.i18n.Messages.Implicits._
   */
 class DashboardController extends Controller {
 
-  def show(user:String) = Action{ implicit request =>
-         Ok(views.html.dashboard(user))
+  def show = Action{ implicit request =>
+         Ok(views.html.dashboard(request.session.get("admin").get))
 
 //         Ok(views.html.dashboard("user"))
   }

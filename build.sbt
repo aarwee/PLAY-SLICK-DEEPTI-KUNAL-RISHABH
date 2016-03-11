@@ -28,3 +28,5 @@ resolvers += "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repos
 resolvers += "scalaz-bintray" at "http://dl.bintray.com/scalaz/releases"
 
 javaOptions in Test += "-Dconfig.file=conf/test.conf"
+
+parallelExecution in Test := false

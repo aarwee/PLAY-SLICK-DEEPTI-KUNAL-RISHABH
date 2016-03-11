@@ -37,8 +37,7 @@ class LanguageController @Inject()(languageRepo: LanguageRepo) extends Controlle
 
   def show = Action.async{ implicit request =>
 //    languageRepo.create()
-    languageRepo.getAll.map{a=>Ok(views.html.language(request.session.get("admin"))(a)(langForm)(updateForm))}
-
+    languageRepo.getAll.map{a=>Ok(views.html.language(request.session.get("admin").get)(a)(langForm)(updateForm))}
   }
   def add = Action.async{ implicit request =>
     val userId = request.session.get("id")
