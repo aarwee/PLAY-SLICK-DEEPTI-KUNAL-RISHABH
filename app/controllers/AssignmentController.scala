@@ -50,6 +50,12 @@ class AssignmentController@Inject()(assignmentRepo: AssignmentRepo) extends Cont
     }
   }
 
+  def getById(id:Int) = Action.async{implicit request =>
+    assignmentRepo.getByUserId(id).map {
+      list => Ok(views.html.assignmentTable("")(list)).as("text/html")
+    }
+  }
+
   def show = Action{ implicit request =>
     if (request.session.get("id").isDefined)
       Ok(views.html.assignment(request.session.get("admin").get)(assignmentForm)(updateForm))

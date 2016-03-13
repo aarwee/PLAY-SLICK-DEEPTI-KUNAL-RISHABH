@@ -9,6 +9,10 @@
 # An example controller showing how to write asynchronous code
 #GET     /message                       controllers.AsyncController.message
 GET     /getawards                      controllers.AwardsController.getAwards
+GET     /showaward/:id                 controllers.AwardsController.getById(id:Int)
+GET     /showlanguage/:id               controllers.LanguageController.getById(id:Int)
+GET     /showprogramming/:id            controllers.ProgrammingController.getById(id:Int)
+GET     /showassignment/:id             controllers.AssignmentController.getById(id:Int)
 GET     /getassignments                 controllers.AssignmentController.getAssignment
 GET     /getassignment/:id              controllers.AssignmentController.getJson(id:Int)
 GET     /getlanguages                   controllers.LanguageController.getLanguage

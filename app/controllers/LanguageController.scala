@@ -43,6 +43,12 @@ class LanguageController @Inject()(languageRepo: LanguageRepo) extends Controlle
       Redirect(routes.HomeController.show)
   }
 
+  def getById(id:Int) = Action.async{implicit request =>
+    languageRepo.getByUserId(id).map {
+      list => Ok(views.html.languageTable("")(list)).as("text/html")
+    }
+  }
+
   def getLanguage = Action.async{implicit request =>
     languageRepo.getByUserId(Integer.parseInt(request.session.get("id").get)).map {
       list => Ok(views.html.languageTable(request.session.get("admin").get)(list)).as("text/html")

@@ -45,6 +45,12 @@ class ProgrammingController @Inject()(programmingrepo: ProgrammingRepo) extends 
       Redirect(routes.HomeController.show)
     }
 
+  def getById(id:Int) = Action.async{implicit request =>
+    programmingrepo.getByUserId(id).map {
+      list => Ok(views.html.programmingTable("")(list)).as("text/html")
+    }
+  }
+
 
   def getProgramming = Action.async{implicit request =>
     programmingrepo.getByUserId(Integer.parseInt(request.session.get("id").get)).map {

@@ -10,7 +10,7 @@
 
     <tr><td>@user.id</td>
         <td>@user.name</td>
-        <td><button type="button" class="btn btn-link assignment" data-toggle="modal" data-target="#viewAssignment">View</button></td>
+        <td><button type="button" class="btn btn-link assignment" data-toggle="modal" value=@user.id data-target="#viewAssignment">View</button></td>
         <td><button type="button" class="btn btn-link awards" data-toggle="modal" value=@user.id data-target="#viewAwards">View</button></td>
         <td><button type="button" class="btn btn-link language" data-toggle="modal" value=@user.id data-target="#viewLanguage">View</button></td>
         <td><button type="button" class="btn btn-link programming" data-toggle="modal" value=@user.id data-target="#viewProgramming">View</button></td>
@@ -112,25 +112,29 @@
 <script type="text/javascript">
 
      $(".assignment").click(function(){
-        $.get("getassignments", function(data, status){
+             var id = $(this).attr('value');
+        $.get("showassignment/"+id, function(data, status){
                 $("#assignmenttable").html(data)
         });
      });
 
      $(".awards").click(function(){
-        $.get("getawards", function(data, status){
+                  var id = $(this).attr('value');
+        $.get("showaward/"+id, function(data, status){
                 $("#awardtable").html(data)
         });
      });
 
      $(".language").click(function(){
-        $.get("getlanguages", function(data, status){
+      var id = $(this).attr('value');
+        $.get("showlanguage/"+id, function(data, status){
                 $("#languagetable").html(data)
         });
      });
 
      $(".programming").click(function(){
-        $.get("getprogramminglanguages", function(data, status){
+        var id = $(this).attr('value');
+        $.get("showprogramming/"+id, function(data, status){
                 $("#programmingtable").html(data)
         });
      });

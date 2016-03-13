@@ -53,6 +53,12 @@ class AwardsController@Inject()(awardsRepo: AwardsRepo) extends Controller{
     }
   }
 
+  def getById(id:Int) = Action.async{implicit request =>
+    awardsRepo.getByUserId(id).map {
+      list => Ok(views.html.awardTable(list)).as("text/html")
+    }
+  }
+
   def getJson(id:Int) = Action.async{implicit request =>
     awardsRepo.getById(id).map{ awards =>
       val jsonObj = Json.obj(
