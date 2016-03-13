@@ -33,9 +33,9 @@ class AwardsRepo @Inject()(protected val dbConfigProvider:DatabaseConfigProvider
     db.run{awardsTable.filter(_.id === id).result.headOption}
   }
 
-  def create() ={
+  /*def create() ={
     db.run{awardsTable.schema.create}
-  }
+  }*/
   def add(name:String,description:String,year:String,userId:Int) = {
     db.run{awardsTable += Awards(name, description,year,userId)}
   }

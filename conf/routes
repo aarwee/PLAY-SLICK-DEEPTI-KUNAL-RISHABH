@@ -15,6 +15,7 @@ GET     /showprogramming/:id            controllers.ProgrammingController.getByI
 GET     /showassignment/:id             controllers.AssignmentController.getById(id:Int)
 GET     /getassignments                 controllers.AssignmentController.getAssignment
 GET     /getassignment/:id              controllers.AssignmentController.getJson(id:Int)
+GET     /getaward/:id              controllers.AwardsController.getJson(id:Int)
 GET     /getlanguages                   controllers.LanguageController.getLanguage
 GET     /getlanguage/:id                controllers.LanguageController.getJson(id:Int)
 GET     /getprogramminglanguages        controllers.ProgrammingController.getProgramming

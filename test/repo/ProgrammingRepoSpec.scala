@@ -47,12 +47,21 @@ class ProgrammingRepoSpec extends Specification {
       response.get.name === "groovy"
     }
     "get a record by id" in new WithApplication {
-      val result = progRepo.getById(1)
+      val result = progRepo.getByUserId(4)
       val response = Await.result(result,Duration.Inf)
-      response.head.name === "groovy"
+      response.head.name === "scala"
     }
 
-
+    "delete a record" in new WithApplication {
+      val result = progRepo.delete(5)
+      val response = Await.result(result,Duration.Inf)
+      response === 0
+    }
+    "get a record by user id" in new WithApplication {
+      val result = progRepo.getById(9)
+      val response = Await.result(result,Duration.Inf)
+      response === None
+    }
 
 
   }

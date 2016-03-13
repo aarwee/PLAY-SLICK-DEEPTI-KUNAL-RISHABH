@@ -27,9 +27,9 @@ class UserRepo @Inject()(protected val dbConfigProvider:DatabaseConfigProvider)
     db.run{userTable.filter(_.email === email).result.headOption}
   }
 
-  def create() ={
+ /* def create() ={
     db.run{userTable.schema.create}
-  }
+  }*/
 
 }
 

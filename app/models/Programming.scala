@@ -32,9 +32,9 @@ class ProgrammingRepo @Inject()(protected val dbConfigProvider:DatabaseConfigPro
     db.run{programmingTable.filter(_.userId === id).to[List].result}
   }
 
-  def create() ={
+ /* def create() ={
     db.run{programmingTable.schema.create}
-  }
+  }*/
   def add(name:String,fluency:String,userId:Int) = {
     db.run{programmingTable  += Programming(name, fluency,userId)}
   }

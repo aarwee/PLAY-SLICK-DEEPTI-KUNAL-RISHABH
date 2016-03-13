@@ -19,8 +19,6 @@ class HomeControllerSpec extends Specification {
 
     "show login" in new WithApplication() {
 
-      //      when(service.getAll).thenReturn(Future(List(Language("hindi","good",1,1))))
-
       val res=route(FakeRequest(GET,"/home")).get
 
       status(res) must equalTo(200)
@@ -29,16 +27,12 @@ class HomeControllerSpec extends Specification {
 
     "invalid email" in new WithApplication() {
 
-      //      when(service.add("hindi","good",1)).thenReturn(Future(1))
-
       val res=route(FakeRequest(GET,"/validateUser").withFormUrlEncodedBody("email"->"k","password"->"kunal")).get
 
       status(res) must equalTo(400)
     }
 
     "empty password" in new WithApplication() {
-
-      //      when(service.add("hindi","good",1)).thenReturn(Future(1))
 
       val res=route(FakeRequest(GET,"/validateUser").withFormUrlEncodedBody("email"->"k@k.com","password"->"")).get
 
@@ -47,13 +41,19 @@ class HomeControllerSpec extends Specification {
 
     "user does not exist" in new WithApplication() {
 
-      //      when(service.add("hindi","good",1)).thenReturn(Future(1))
 
       val res=route(FakeRequest(GET,"/validateUser").withFormUrlEncodedBody("email"->"k@k.in","password"->"kuna")).get
 
       status(res) must equalTo(400)
     }
 
+    "logout" in new WithApplication {
+
+      val res = route(FakeRequest(GET,"/logout")).get
+
+      status(res) must equalTo(200)
+
+    }
 
   }
 }

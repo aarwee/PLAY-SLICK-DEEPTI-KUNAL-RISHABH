@@ -57,5 +57,22 @@ class AwardsControllerSpec extends PlaySpecification with Mockito {
       val res=call(controller.update,FakeRequest(POST,"/update").withFormUrlEncodedBody("id"->"1","name"->"scjp","description"->"good","year"->"2000","userId"->"2").withSession("id"->"2"))
       status(res) must equalTo(303)
     }
+    "get Json object" in new WithApplication() {
+
+      when(service.getById(3)).thenReturn(Future(Option(Awards("scjp", "good", "2000",1))))
+      val res = call(controller.getJson(3), FakeRequest(GET, "/getaward/3").withSession("id" -> "2"))
+      status(res) must equalTo(200)
+
+    }
+    "show Awards without session" in new WithApplication() {
+
+      when(service.getAll).thenReturn(Future(List(Awards("scjp","good","1992",1,1))))
+
+      val res=call(controller.show,FakeRequest(GET,"/awards"))
+
+      println(res)
+      status(res) must equalTo(303)
+    }
+
 
   }}

@@ -50,9 +50,9 @@ class LanguageRepoSpec extends Specification{
       response.get.name === "english"
     }
     "get a record by userid" in new WithApplication {
-      val result = langRepo.getById(1)
+      val result = langRepo.getByUserId(1)
       val response = Await.result(result,Duration.Inf)
-      response.get.name === "hindi"
+      response.head.name === "hindi"
     }
 
 

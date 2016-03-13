@@ -20,6 +20,9 @@
 
     <div class="jumbotron" style="background-color: cornsilk ; margin-bottom:0px;">
     <div class="pull-right">
+        @if(title != "login"){
+          WELCOME  | <a href="/logout" onfocus="color:red"> LOGOUT </a> |
+        }
     </div>
     <h1 style="font-weight:bolder; color:teal "><strong>KNOLDUS</strong> <small style="font-style: italic;">tree of knowledge</small></h1>
 </div>
@@ -34,10 +37,10 @@
     <ul class="nav nav-tabs">
 
         <li role="presentation"><a href="/show">HOME</a></li>
-        <li role="presentation"><a id="awards" href="/awards">Awards</a></li>
-        <li role="presentation"><a href="/language">LANGUAGE</a></li>
-        <li role="presentation"><a href="/programming">PROGRAMMING</a></li>
-        <li role="presentation"><a href="/assignment">ASSIGNMENT</a></li>
+        <li role="presentation"><a id="awards" href="/awards">AWARDS</a></li>
+        <li role="presentation"><a id="lang"  href="/language">LANGUAGE</a></li>
+        <li role="presentation"><a id="prog"  href="/programming">PROGRAMMING</a></li>
+        <li role="presentation"><a  id="assign"  href="/assignment">ASSIGNMENT</a></li>
         @if(user == "true"){
         <li role="presentation"><a href="/showinterns">INTERN DETAILS</a></li>
         }

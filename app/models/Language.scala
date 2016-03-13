@@ -33,9 +33,9 @@ class LanguageRepo @Inject()(protected val dbConfigProvider:DatabaseConfigProvid
     db.run{languageTable.filter(_.userId === id).to[List].result}
   }
 
-  def create() ={
+ /* def create() ={
     db.run{languageTable.schema.create}
-  }
+  }*/
   def add(name:String,fluency:String,userId:Int) = {
     print(name,fluency,userId)
     db.run{languageTable  += Language(name,fluency,userId)}

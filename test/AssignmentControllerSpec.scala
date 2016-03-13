@@ -64,7 +64,38 @@ class AssignmentControllerSpec  extends PlaySpecification with Mockito {
       val res=call(controller.update,FakeRequest(POST,"/updateassignment").withFormUrlEncodedBody("name"->"scala","date"->"2015","marks"->"22","remarks"->"good","id"->"1").withSession("id"->"1"))
       status(res) must equalTo(400)
     }
+    "get Json object" in new WithApplication() {
 
+      when(service.getById(3)).thenReturn(Future(Option(Assignment("scala","2015",22,"good",1))))
+      val res = call(controller.getJson(3),FakeRequest(GET, "/getasssignment/3").withSession("id" -> "2"))
+      status(res) must equalTo(200)
+
+    }
+
+    "get by id " in new WithApplication() {
+      when(service.getByUserId(1)).thenReturn(Future(List(Assignment("scala","2015",22,"good",1))))
+      val res = call(controller.getById(1),FakeRequest(GET, " /showassignment/1").withSession("id" -> "2"))
+      status(res) must equalTo(200)
+    }
+    "show assignment" in new WithApplication() {
+
+      when(service.getAll).thenReturn(Future(List(Assignment("scala","2015-08-08",22,"good",1))))
+
+      val res=call(controller.show,FakeRequest(GET,"/assignment"))
+
+      println(res)
+      status(res) must equalTo(303)
+    }
+    "get assignment" in new WithApplication() {
+
+      when(service.getByUserId(1)).thenReturn(Future(List(Assignment("scala", "2015", 22, "good",1))))
+      val res= call(controller.getAssignment, FakeRequest(GET, "/getassignments").withSession("id"->"1","admin"->"y"))
+      status(res) must equalTo(200)
+    }
   }
 
 }
+
+
+
+

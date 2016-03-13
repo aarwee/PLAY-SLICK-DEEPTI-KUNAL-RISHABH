@@ -1,34 +1,37 @@
-//package selenium
-//
-//import java.util.concurrent.TimeUnit
-//
-//import org.openqa.selenium.firefox.FirefoxDriver
-//import org.scalatest.FlatSpec
-//
-///**
-//  * Created by kunal on 11/3/16.
-//  */
-//class Login extends FlatSpec{
-//
-//  val baseUrl ="http://localhost:9000/home"
-//
-//  "User" should "successfully hit the Url" in {
-//    val driver = new FirefoxDriver()
-//    driver.get(baseUrl)
-//    driver.manage().timeouts().implicitlyWait(2,TimeUnit.SECONDS)
-//    driver.findElementById("email").sendKeys("k@k.com")
-//    driver.findElementById("password").sendKeys("kunal")
-//    driver.findElementByClassName("btn-default").click()
-//    driver.findElementByCssSelector("BODY").getText.contains("Invalid")
-//    driver.findElementById("awards").click()
-//    driver.findElementByCssSelector("BODY").getText.contains("awards")
-//    driver.findElementByClassName("btn-info").click()
-//    driver.findElementByCssSelector(".modal-open #awardModal .modal-dialog .modal-content .modal-header .modal-body #awardForm #name_field #name").sendKeys("ooo")
-//    driver.findElementByCssSelector("#awardModal .modal-dialog .modal-content .modal-header .modal-body #awardForm #name_field #description").sendKeys("ooo")
-//    driver.findElementByCssSelector("#awardModal .modal-dialog .modal-content .modal-header .modal-body #awardForm #name_field #year").sendKeys("ooo")
-//    driver.findElementByCssSelector("#awardModal .modal-dialog .modal-content .modal-header .modal-body #awardForm #name_field #addaward").click()
-//    driver.findElementByCssSelector("BODY").getText.contains("ooo")
-//    Thread.sleep(4000)
-//  }
-//
-//}
+package selenium
+
+import java.util.concurrent.TimeUnit
+
+import org.openqa.selenium.firefox.FirefoxDriver
+import org.scalatest.FlatSpec
+
+/**
+  * Created by kunal on 11/3/16.
+  */
+class Login extends FlatSpec{
+
+  val baseUrl ="http://localhost:9000/home"
+
+  "User" should "successfully hit the Url" in {
+    val driver = new FirefoxDriver()
+    driver.get(baseUrl)
+    driver.manage().timeouts().implicitlyWait(2,TimeUnit.SECONDS)
+    driver.findElementById("email").sendKeys("rishabh@gmail.com")
+    driver.findElementById("password").sendKeys("199992")
+    driver.findElementByClassName("btn-default").click()
+    driver.findElementByCssSelector("BODY").getText.contains("invalid")
+    driver.findElementById("email").sendKeys("rishabh@gmail.com")
+    driver.findElementById("password").sendKeys("1992")
+    driver.findElementByClassName("btn-default").click()
+    driver.findElementByCssSelector("BODY").getText.contains("AWARDS")
+    driver.findElementById("awards").click()
+    driver.findElementByCssSelector("BODY").getText.contains("PROGRAMMING")
+    driver.findElementById("prog").click()
+    driver.findElementByCssSelector("BODY").getText.contains("LANGUAGE")
+    driver.findElementById("lang").click()
+    driver.findElementByCssSelector("BODY").getText.contains("ASSIGNMENT")
+    driver.findElementById("assign").click()
+  Thread.sleep(2000)
+  }
+
+}
