@@ -45,6 +45,15 @@ class HomeControllerSpec extends Specification {
       status(res) must equalTo(400)
     }
 
+    "user does not exist" in new WithApplication() {
+
+      //      when(service.add("hindi","good",1)).thenReturn(Future(1))
+
+      val res=route(FakeRequest(GET,"/validateUser").withFormUrlEncodedBody("email"->"k@k.in","password"->"kuna")).get
+
+      status(res) must equalTo(400)
+    }
+
 
   }
 }

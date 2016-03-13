@@ -24,6 +24,14 @@ class ProgrammingRepo @Inject()(protected val dbConfigProvider:DatabaseConfigPro
     db.run{programmingTable.to[List].result}
   }
 
+  def getById(id:Int):Future[Option[Programming]] ={
+    db.run{programmingTable.filter(_.id === id).result.headOption}
+  }
+
+  def getByUserId(id:Int): Future[List[Programming]] = {
+    db.run{programmingTable.filter(_.userId === id).to[List].result}
+  }
+
   def create() ={
     db.run{programmingTable.schema.create}
   }

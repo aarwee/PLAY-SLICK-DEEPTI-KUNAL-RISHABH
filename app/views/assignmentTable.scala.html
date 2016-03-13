@@ -1,0 +1,44 @@
+@(param:String)(list:List[Assignment])
+<table id="awards" class="table">
+    <tr> <td> ID </td><td>NAME</td><td>MARKS</td><td>DATE</td><td>REMARKS</td><td>UPDATE</td><td>DELETE</td>  </tr>
+    @for(a <- list){
+
+    <tr><td>@a.id</td>
+        <td>@a.name</td>
+        <td>@a.marks</td>
+        <td>@a.date</td>
+        <td>@a.remarks</td>
+        @if(param=="true"){  <td><button type="button"  value="@a.id" class="btn btn-link update" data-toggle="modal" data-target="#updateModal">Update</button></td>
+        <td><button class="btn btn-danger delete" value="@a.id">  delete      </button></td>}
+
+        }
+</table>
+<script>
+    $(".update").click(function(){
+        var id = $(this).attr('value');
+        $.get("getlanguage/"+id, function(data, status){
+            $("#name").val(data.name);
+            $("#date").val(data.date);
+            $("#marks").val(data.marks);
+            $("#remarks").val(data.remarks);
+            $("#id").val(data.id);
+            });
+
+    });
+
+$(".delete").click(function(event){
+     event.preventDefault();
+        $("#assignmenttable").html('');
+        var id = $(this).attr('value');
+            $.ajax({
+                url: "deleteassignment/"+id,
+                type: "get",
+                data: $(this).serialize(),
+                success: function (data) {
+                 $("#assignmenttable").html(data);
+                    refreshTable();
+                }
+            });
+
+     });
+</script>

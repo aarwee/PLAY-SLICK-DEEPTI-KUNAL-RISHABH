@@ -10,8 +10,10 @@ import play.api.i18n.Messages.Implicits._
 class DashboardController extends Controller {
 
   def show = Action{ implicit request =>
-         Ok(views.html.dashboard(request.session.get("admin").get))
+    if(!request.session.isEmpty)
+      Ok(views.html.dashboard(request.session.get("admin").get))
+    else
+      Redirect(routes.HomeController.show)
 
-//         Ok(views.html.dashboard("user"))
   }
 }

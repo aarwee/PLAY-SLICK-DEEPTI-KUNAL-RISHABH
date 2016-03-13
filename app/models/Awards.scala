@@ -25,6 +25,14 @@ class AwardsRepo @Inject()(protected val dbConfigProvider:DatabaseConfigProvider
     db.run{awardsTable.to[List].result}
   }
 
+  def getByUserId(id:Int): Future[List[Awards]] = {
+    db.run{awardsTable.filter(_.userId === id).to[List].result}
+  }
+
+  def getById(id:Int):Future[Option[Awards]] ={
+    db.run{awardsTable.filter(_.id === id).result.headOption}
+  }
+
   def create() ={
     db.run{awardsTable.schema.create}
   }

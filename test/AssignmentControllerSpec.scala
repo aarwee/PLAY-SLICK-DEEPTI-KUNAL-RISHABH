@@ -57,6 +57,14 @@ class AssignmentControllerSpec  extends PlaySpecification with Mockito {
       status(res) must equalTo(303)
     }
 
+    "update assignment with invalid date" in new WithApplication() {
+
+      when(service.update(1,"scala","2015",22,"good",1)).thenReturn(Future(1))
+
+      val res=call(controller.update,FakeRequest(POST,"/updateassignment").withFormUrlEncodedBody("name"->"scala","date"->"2015","marks"->"22","remarks"->"good","id"->"1").withSession("id"->"1"))
+      status(res) must equalTo(400)
+    }
+
   }
 
 }

@@ -20,6 +20,16 @@ class AssignmentRepo @Inject()(protected val dbConfigProvider:DatabaseConfigProv
     db.run{assignmentTable.to[List].result}
   }
 
+
+
+  def getById(id:Int):Future[Option[Assignment]] ={
+    db.run{assignmentTable.filter(_.id === id).result.headOption}
+  }
+
+  def getByUserId(id:Int): Future[List[Assignment]] = {
+    db.run{assignmentTable.filter(_.userId === id).to[List].result}
+  }
+
   def create() ={
     db.run{assignmentTable.schema.create}
   }

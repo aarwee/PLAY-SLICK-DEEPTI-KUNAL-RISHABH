@@ -1,4 +1,4 @@
-@(userList:List[User])(awardsList:List[Awards])(assignmentList:List[Assignment])(languageList:List[Language])(programmingList:List[Programming])(implicit msg:Messages)
+@(implicit msg:Messages)
 @import b3.vertical.fieldConstructor
 
 @views.html.main("intern"){
@@ -11,10 +11,10 @@
 
     <tr><td>@user.id</td>
         <td>@user.name</td>
-        <td><button type="button" class="btn btn-link " data-toggle="modal" data-target="#viewAssignment">View</button></td>
-        <td><button type="button" class="btn btn-link " data-toggle="modal" value=@user.id data-target="#viewAwards">View</button></td>
-        <td><button type="button" class="btn btn-link " data-toggle="modal" value=@user.id data-target="#viewLanguage">View</button></td>
-        <td><button type="button" class="btn btn-link " data-toggle="modal" value=@user.id data-target="#viewProgramming">View</button></td>
+        <td><button type="button" class="btn btn-link assignment" data-toggle="modal" data-target="#viewAssignment">View</button></td>
+        <td><button type="button" class="btn btn-link awards" data-toggle="modal" value=@user.id data-target="#viewAwards">View</button></td>
+        <td><button type="button" class="btn btn-link language" data-toggle="modal" value=@user.id data-target="#viewLanguage">View</button></td>
+        <td><button type="button" class="btn btn-link programming" data-toggle="modal" value=@user.id data-target="#viewProgramming">View</button></td>
     </tr>
     }
 </table>
@@ -29,23 +29,7 @@
                         <h4 class="modal-title" Style="color:RED;font-weight:Bold">View Assignment</h4>
                     </div>
                     <div class="modal-body">
-                        <table class="table">
-                            <tr><td>ID</td><td>NAME</td><td>DATE</td><td>MARKS</td><td>REMARKS</td></tr>
-                            @for(assignment <- assignmentList){
-
-                                <tr>
-                                    <td>@assignment.id</td>
-                                    <td>@assignment.name</td>
-                                    <td>@assignment.date</td>
-                                    <td>@assignment.marks</td>
-                                    <td>@assignment.remarks</td>
-                                    <td><button type="button" class="btn btn-primary ">ADD</button></td>
-                                    <td><button type="button" class="btn btn-primary ">DELETE</button></td>
-
-                                </tr>
-
-                            }
-                        </table>
+                        <div id="assignmenttable"></div>
 
                     </div>
                     <div class="modal-footer">
@@ -55,6 +39,9 @@
 
             </div>
         </div>
+
+
+
 <div id="viewAwards" class="modal fade" role="dialog">
     <div class="modal-dialog">
 
@@ -65,17 +52,8 @@
                 <h4 class="modal-title" Style="color:RED;font-weight:Bold">View Award</h4>
             </div>
             <div class="modal-body">
-                <table class="table">
-                    <tr><td>ID</td><td>NAME</td><td>DESCRIPTION</td><td>YEAR</td></tr>
-                    @for(awards <- awardsList){
-                    <tr>
-                        <td>@awards.id</td>
-                        <td>@awards.name</td>
-                        <td>@awards.description</td>
-                        <td>@awards.year</td>
-                    </tr>
-                    }
-                </table>
+                <div id="awardtable"></div>
+
 
             </div>
             <div class="modal-footer">
@@ -92,19 +70,11 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title" Style="color:RED;font-weight:Bold">Update Award</h4>
+                <h4 class="modal-title" Style="color:RED;font-weight:Bold">View Language</h4>
             </div>
             <div class="modal-body">
-                <table class="table">
-                    <tr><td>ID</td><td>NAME</td><td>FLUENCY</td></tr>
-                    @for(language <- languageList){
-                    <tr>
-                        <td>@language.id</td>
-                        <td>@language.name</td>
-                        <td>@language.fluency</td>
-                    </tr>
-                    }
-                </table>
+                <div id="languagetable"></div>
+
 
             </div>
             <div class="modal-footer">
@@ -121,19 +91,11 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title" Style="color:RED;font-weight:Bold">Update Award</h4>
+                <h4 class="modal-title" Style="color:RED;font-weight:Bold">View Programming Language</h4>
             </div>
             <div class="modal-body">
-                <table class="table">
-                    <tr><td>ID</td><td>NAME</td><td>FLUENCY</td></tr>
-                    @for(programming <- programmingList){
-                    <tr>
-                        <td>@programming.id</td>
-                        <td>@programming.name</td>
-                        <td>@programming.fluency</td>
-                    </tr>
-                    }
-                </table>
+                <div id="programmingtable"></div>
+
 
             </div>
             <div class="modal-footer">
@@ -146,11 +108,33 @@
 
 
 
-}@{""}
+}@{" "}
 
-<script>
-    function myfunc(id){
-     alert(id)
-    }
+<script type="text/javascript">
+
+     $(".assignment").click(function(){
+        $.get("getassignments", function(data, status){
+                $("#assignmenttable").html(data)
+        });
+     });
+
+     $(".awards").click(function(){
+        $.get("getawards", function(data, status){
+                $("#awardtable").html(data)
+        });
+     });
+
+     $(".language").click(function(){
+        $.get("getlanguages", function(data, status){
+                $("#languagetable").html(data)
+        });
+     });
+
+     $(".programming").click(function(){
+        $.get("getprogramminglanguages", function(data, status){
+                $("#programmingtable").html(data)
+        });
+     });
+
 
 </script>

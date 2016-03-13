@@ -15,8 +15,6 @@ import scala.concurrent.Future
 
 case class User (name:String,email:String,password:String , mobile:String, admin:Boolean,id:Int)
 
-
-
 class UserRepo @Inject()(protected val dbConfigProvider:DatabaseConfigProvider)
   extends HasDatabaseConfigProvider[JdbcProfile] with UserTable{
   import driver.api._

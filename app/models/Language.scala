@@ -25,6 +25,14 @@ class LanguageRepo @Inject()(protected val dbConfigProvider:DatabaseConfigProvid
     db.run{languageTable.to[List].result}
   }
 
+  def getById(id:Int):Future[Option[Language]] ={
+    db.run{languageTable.filter(_.id === id).result.headOption}
+  }
+
+  def getByUserId(id:Int): Future[List[Language]] = {
+    db.run{languageTable.filter(_.userId === id).to[List].result}
+  }
+
   def create() ={
     db.run{languageTable.schema.create}
   }

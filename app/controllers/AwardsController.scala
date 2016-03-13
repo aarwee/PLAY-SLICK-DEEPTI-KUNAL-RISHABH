@@ -7,6 +7,7 @@ import models.{AwardsRepo, User}
 import play.api.data.Form
 import play.api.data.Forms._
 import play.api.libs.iteratee.{Iteratee, Enumerator}
+import play.api.libs.json.Json
 import play.api.mvc._
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
@@ -37,11 +38,33 @@ class AwardsController@Inject()(awardsRepo: AwardsRepo) extends Controller{
     )
   )
 
-  def show = Action.async{ implicit request =>
-    awardsRepo.getAll.map{
-      list=> Ok(views.html.awards(request.session.get("admin").get)(list)(awardForm)(updateForm))
+
+
+  def show = Action{ implicit request =>
+      if(request.session.get("id").isDefined)
+      Ok(views.html.awards(request.session.get("admin").get)(awardForm)(updateForm))
+      else
+        Redirect(routes.HomeController.show)
+  }
+
+  def getAwards = Action.async{implicit request =>
+    awardsRepo.getByUserId(Integer.parseInt(request.session.get("id").get)).map {
+      list => Ok(views.html.awardTable(list)).as("text/html")
     }
   }
+
+  def getJson(id:Int) = Action.async{implicit request =>
+    awardsRepo.getById(id).map{ awards =>
+      val jsonObj = Json.obj(
+        "id" -> awards.get.id.toString,
+        "description" -> awards.get.description,
+        "name" -> awards.get.name,
+        "year" -> awards.get.year
+      )
+      Ok(jsonObj)
+    }
+  }
+
 
   def add = Action.async{ implicit request =>
     val userId = request.session.get("id")

@@ -5,6 +5,7 @@ import models.{ProgrammingRepo, Programming}
 import play.api.data.Form
 import play.api.data.Forms._
 import play.api.libs.iteratee.{Iteratee, Enumerator}
+import play.api.libs.json.Json
 import play.api.mvc._
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
@@ -37,12 +38,31 @@ class ProgrammingController @Inject()(programmingrepo: ProgrammingRepo) extends 
   )
 
 
-  def show = Action.async { implicit request =>
-//    programmingrepo.create()
-    programmingrepo.getAll.map {
-      list => Ok(views.html.programming(request.session.get("admin").get)(list)(progForm)(updateForm))
+  def show = Action { implicit request =>
+    if(request.session.get("id").isDefined)
+      Ok(views.html.programming(request.session.get("admin").get)(progForm)(updateForm))
+    else
+      Redirect(routes.HomeController.show)
+    }
+
+
+  def getProgramming = Action.async{implicit request =>
+    programmingrepo.getByUserId(Integer.parseInt(request.session.get("id").get)).map {
+      list => Ok(views.html.programmingTable(request.session.get("admin").get)(list)).as("text/html")
     }
   }
+
+  def getJson(id:Int) = Action.async{implicit request =>
+    programmingrepo.getById(id).map{ programming =>
+      val jsonObj = Json.obj(
+        "id" -> programming.get.id.toString,
+        "name" -> programming.get.name,
+        "fluency" -> programming.get.fluency
+      )
+      Ok(jsonObj)
+    }
+  }
+
   def add = Action.async{ implicit request =>
     val userId = request.session.get("id")
 

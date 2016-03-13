@@ -6,6 +6,7 @@ import models.{AssignmentRepo, User}
 import play.api.data.Form
 import play.api.data.Forms._
 import play.api.libs.iteratee.{Iteratee, Enumerator}
+import play.api.libs.json.Json
 import play.api.mvc._
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
@@ -49,10 +50,33 @@ class AssignmentController@Inject()(assignmentRepo: AssignmentRepo) extends Cont
     }
   }
 
-  def show = Action.async{ implicit request =>
-//    assignmentRepo.create()
-    assignmentRepo.getAll.map{list=>Ok(views.html.assignment(request.session.get("admin").get)(list)(assignmentForm)(updateForm))}
+  def show = Action{ implicit request =>
+    if (request.session.get("id").isDefined)
+      Ok(views.html.assignment(request.session.get("admin").get)(assignmentForm)(updateForm))
+    else
+      Redirect(routes.HomeController.show)
+
   }
+
+  def getAssignment = Action.async{implicit request =>
+    assignmentRepo.getByUserId(Integer.parseInt(request.session.get("id").get)).map {
+      list => Ok(views.html.assignmentTable(request.session.get("admin").get)(list)).as("text/html")
+    }
+  }
+
+  def getJson(id:Int) = Action.async{implicit request =>
+    assignmentRepo.getById(id).map{ assignment =>
+      val jsonObj = Json.obj(
+        "id" -> assignment.get.id.toString,
+        "name" -> assignment.get.name,
+        "date" -> assignment.get.date,
+        "marks" -> assignment.get.marks,
+        "remarks" -> assignment.get.remarks
+      )
+      Ok(jsonObj)
+    }
+  }
+
 
   def add   = Action.async{ implicit request =>
     val userId = request.session.get("id")
@@ -71,10 +95,9 @@ class AssignmentController@Inject()(assignmentRepo: AssignmentRepo) extends Cont
 
   def update   = Action.async{ implicit request =>
     val userId = request.session.get("id")
-
     updateForm.bindFromRequest.fold(
-      badForm =>Future{BadRequest(" ")},
-      validForm => { assignmentRepo.update(Integer.parseInt(validForm._1),validForm._2, validForm._3,validForm._4,validForm._5,Integer.parseInt(userId.get)).map{
+      badform =>{print(badform);Future{BadRequest("")}},
+      validForm => {assignmentRepo.update(Integer.parseInt(validForm._1),validForm._2, validForm._3,validForm._4,validForm._5,Integer.parseInt(userId.get)).map{
         a=>Redirect(routes.AssignmentController.show)}
       }
 

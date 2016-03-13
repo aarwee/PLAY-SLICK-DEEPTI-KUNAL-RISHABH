@@ -1,19 +1,10 @@
-@(param:String)(list:List[Programming])(awardForm:Form[(String,String)])(updateForm:Form[(String,String,String)])(implicit msg:Messages)
+@(param:String)(awardForm:Form[(String,String)])(updateForm:Form[(String,String,String)])(implicit msg:Messages)
 @import b3.vertical.fieldConstructor
 
 @views.html.main("programming language"){
 
-
-<table class="table">
-    <tr> <td> ID </td><td>NAME</td><td>FLUENCY</td><td>UPDATE</td><td>DELETE</td>  </tr>
-
-    @for(a <- list){
-
-    <tr><td>@a.id</td>
-        <td>@a.name</td>
-        <td>@a.fluency</td>
-        <td><button type="button" class="btn btn-link " data-toggle="modal" data-target="#myModal1">Update</button></td>
-        <div id="myModal1" class="modal fade" role="dialog">
+<div id="programmingtable"></div>
+<div id="updateModal" class="modal fade" role="dialog">
             <div class="modal-dialog">
 
                 <!-- Modal content-->
@@ -24,9 +15,9 @@
                     </div>
                     <div class="modal-body">
                         @b3.form(action=routes.ProgrammingController.update,'id->"updateForm") {
-                        @b3.text(updateForm("id"), 'placeholder -> "ID",'value -> a.id,'Style ->"display:none")
-                        @b3.text(updateForm("name"), '_label -> "NAME", 'placeholder -> "NAME",'value -> a.name )
-                        @b3.text(updateForm("fluency"), '_label -> "Fluency", 'placeholder -> "Fluency",'value -> a.fluency )
+                        @b3.text(updateForm("id"), 'placeholder -> "ID",'Style ->"display:none")
+                        @b3.text(updateForm("name"), '_label -> "NAME", 'placeholder -> "NAME" )
+                        @b3.text(updateForm("fluency"), '_label -> "Fluency", 'placeholder -> "Fluency")
                         <center>@b3.submit('class -> "btn btn-success"){ update }</center>
                         }
 
@@ -40,16 +31,11 @@
         </div>
 
 
-
-        <td><a href="/deleteprogramming/@a.id">  delete      </a></td>
-        }
-</table>
-
-<div class="pull-right" > <button type="button" class="btn btn-info btn-lg " data-toggle="modal" data-target="#programmingModal">Add Programming Language</button>
+<div class="pull-right" > <button type="button" class="btn btn-info btn-lg " data-toggle="modal" data-target="#addModal">Add Programming Language</button>
 </div>
 
 <!-- Modal -->
-<div id="programmingModal" class="modal fade" role="dialog">
+<div id="addModal" class="modal fade" role="dialog">
     <div class="modal-dialog">
 
         <!-- Modal content-->
@@ -59,7 +45,7 @@
                 <h4 class="modal-title" Style="color:RED;font-weight:Bold">Add Programming Language</h4>
             </div>
             <div class="modal-body">
-                @b3.form(action=routes.ProgrammingController.add,'id->"programmingForm") {
+                @b3.form(action=routes.ProgrammingController.add,'id->"addForm") {
                 @b3.text(awardForm("name"), '_label -> "NAME", 'placeholder -> "NAME" )
                 @b3.text(awardForm("fluency"), '_label -> "Fluency", 'placeholder -> "Fluency" )
                 <center>@b3.submit('class -> "btn btn-success"){ Add }</center>
@@ -74,24 +60,44 @@
     </div>
 </div>
 }@{param}
-<script>
-    $(document).ready(function(){
 
+<script type="text/javascript">
+function refreshTable() {
+$.get("getprogramminglanguages", function(data, status){
+                $("#programmingtable").html(data)
+        });
+}
 
-$('#programmingForm').on('submit',function(e){
-    e.preventDefault();
-    $.ajax({
-        type     : "POST",
-        cache    : false,
-        url      : $(this).attr('action'),
-        data     : $(this).serialize(),
+refreshTable();
 
-                $("#programmingModal").modal('hide');
+       $("#addForm").submit(function(event) {
+            event.preventDefault();
 
-    });
+            $.ajax({
+            url: "addprogramming",
+            type: "post",
+            data: $(this).serialize(),
+            success: function (data) {
+                $("#addModal").modal('toggle');
+                refreshTable();
+            }
 
-});
+        });
+     });
 
-});
+     $("#updateForm").submit(function(event) {
+    event.preventDefault();
+    $("#programmingetable").html('');
+         $.ajax({
+            url: "updateprogramming",
+            type: "post",
+            data: $(this).serialize(),
+            success: function (data) {
+                $("#updateModal").modal('toggle');
+                $("#programmingtable").html(data);
+                refreshTable();
+            }
+        });
 
+     });
 </script>

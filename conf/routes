@@ -7,29 +7,36 @@
 # An example controller showing how to use dependency injection
 #GET     /count                      controllers.CountController.count
 # An example controller showing how to write asynchronous code
-#GET     /message                    controllers.AsyncController.message
-
-GET     /home                       controllers.HomeController.show
-GET     /show                controllers.DashboardController.show
-GET     /showinterns                controllers.InternController.show
-GET     /validateUser               controllers.HomeController.validateUser
-GET     /awards                     controllers.AwardsController.show
-GET     /assignment                 controllers.AssignmentController.show
-GET     /language                   controllers.LanguageController.show
-GET     /programming                controllers.ProgrammingController.show
-POST    /add                        controllers.AwardsController.add
-GET    /deleteaward/:id              controllers.AwardsController.delete(id)
-POST    /update                        controllers.AwardsController.update
-POST    /updatelanguage                controllers.LanguageController.update
-POST    /updateassignment                controllers.AssignmentController.update
+#GET     /message                       controllers.AsyncController.message
+GET     /getawards                      controllers.AwardsController.getAwards
+GET     /getassignments                 controllers.AssignmentController.getAssignment
+GET     /getassignment/:id              controllers.AssignmentController.getJson(id:Int)
+GET     /getlanguages                   controllers.LanguageController.getLanguage
+GET     /getlanguage/:id                controllers.LanguageController.getJson(id:Int)
+GET     /getprogramminglanguages        controllers.ProgrammingController.getProgramming
+GET     /getprogramminglanguage/:id     controllers.ProgrammingController.getJson(id:Int)
+GET     /home                           controllers.HomeController.show
+GET     /show                           controllers.DashboardController.show
+GET     /showinterns                    controllers.InternController.show
+GET     /logout                         controllers.HomeController.logout
+GET     /validateUser                   controllers.HomeController.validateUser
+GET     /awards                         controllers.AwardsController.show
+GET     /assignment                     controllers.AssignmentController.show
+GET     /language                       controllers.LanguageController.show
+GET     /programming                    controllers.ProgrammingController.show
+POST    /add                            controllers.AwardsController.add
+GET    /deleteaward/:id                 controllers.AwardsController.delete(id)
+POST    /update                         controllers.AwardsController.update
+POST    /updatelanguage                 controllers.LanguageController.update
+POST    /updateassignment               controllers.AssignmentController.update
 POST    /addlanguage                    controllers.LanguageController.add
-POST    /addassignment                controllers.AssignmentController.add
-GET    /deletelanguage/:id                controllers.LanguageController.delete(id)
-POST    /deleteassignment/:id              controllers.AssignmentController.delete(id)
-POST    /addprogramming                controllers.ProgrammingController.add
+POST    /addassignment                  controllers.AssignmentController.add
+GET    /deletelanguage/:id              controllers.LanguageController.delete(id)
+POST    /deleteassignment/:id           controllers.AssignmentController.delete(id)
+POST    /addprogramming                 controllers.ProgrammingController.add
 POST    /updateprogramming              controllers.ProgrammingController.update
 GET     /deleteprogramming/:id          controllers.ProgrammingController.delete(id)
-GET     /deleteassignment/:id          controllers.AssignmentController.delete(id)
+GET     /deleteassignment/:id           controllers.AssignmentController.delete(id)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)

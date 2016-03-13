@@ -1,3 +1,4 @@
+/*
 package services
 
 import java.time.{Clock, Instant}
@@ -37,3 +38,4 @@ class ApplicationTimer @Inject() (clock: Clock, appLifecycle: ApplicationLifecyc
     Future.successful(())
   }
 }
+*/

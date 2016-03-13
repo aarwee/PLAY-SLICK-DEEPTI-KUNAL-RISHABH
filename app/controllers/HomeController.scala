@@ -42,17 +42,23 @@ class HomeController @Inject()(userRepo: UserRepo) extends Controller {
       validform => {
         //        Redirect(routes.DashboardController.show("admin"))
         val user: Option[User] = Await.result(userRepo.getUser(validform._1),2 second)
-        if (user.isDefined && user.get.password == validform._2)
+        if (user.isDefined )
         {
+          if(user.get.password == validform._2)
           Redirect(routes.DashboardController.show).withSession("id"->user.get.id.toString,"admin"->user.get.admin.toString)
-
-
+          else
+            Redirect(routes.HomeController.show).flashing("error"->"Invalid username or password")
         }
         else {
-          Redirect(routes.HomeController.show).flashing("error"->"Invalid Email or password")
+          Redirect(routes.HomeController.show).flashing("error"->"You are not registered")
         }
       }
     )
+
+  }
+
+  def logout = Action{ implicit request =>
+    Ok(views.html.home(loginForm)).withNewSession
 
   }
 

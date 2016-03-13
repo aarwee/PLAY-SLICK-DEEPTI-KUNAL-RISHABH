@@ -1,20 +1,13 @@
-@(param:String)(list:List[Awards])(awardForm:Form[(String,String,String)])(updateForm:Form[(String,String,String,String)])(implicit msg:Messages)
+@(param:String)(awardForm:Form[(String,String,String)])(updateForm:Form[(String,String,String,String)])(implicit msg:Messages)
 @import b3.vertical.fieldConstructor
 
 @views.html.main("awards"){
 
 
-<table id="awards" class="table">
-    <tr> <td> ID </td><td>NAME</td><td>DESCRIPTION</td><td>YEAR</td><td>UPDATE</td><td>DELETE</td>  </tr>
+<div id="awardtable">
 
-    @for(a <- list){
-
-    <tr><td>@a.id</td>
-        <td>@a.name</td>
-        <td>@a.description</td>
-        <td>@a.year</td>
-        <td><button type="button" class="btn btn-link " data-toggle="modal" data-target="#myModal1">Update</button></td>
-        <div id="myModal1" class="modal fade" role="dialog">
+</div>
+        <div id="updateModal" class="modal fade" role="dialog">
             <div class="modal-dialog">
 
                 <!-- Modal content-->
@@ -26,9 +19,9 @@
                     <div class="modal-body">
                         @b3.form(action=routes.AwardsController.update,'id->"updateForm") {
                         @b3.text(updateForm("id"), 'placeholder -> "ID",'id -> "id",'Style->"display:none" )
-                        @b3.text(updateForm("name"), '_label -> "NAME", 'placeholder -> "NAME",'value -> a.name ,'id -> "name")
-                        @b3.text(updateForm("description"), '_label -> "DESCRIPTION",'id -> "description" ,'placeholder -> "DESCRIPTION",'value -> a.description )
-                        @b3.text(updateForm("year"), '_label -> "YEAR", 'placeholder -> "YEAR", 'value -> a.year,'id -> "year" )
+                        @b3.text(updateForm("name"), '_label -> "NAME", 'placeholder -> "NAME" ,'id -> "name")
+                        @b3.text(updateForm("description"), '_label -> "DESCRIPTION",'id -> "description" ,'placeholder -> "DESCRIPTION" )
+                        @b3.text(updateForm("year"), '_label -> "YEAR", 'placeholder -> "YEAR", 'id -> "year" )
                         <center>@b3.submit('class -> "btn btn-success"){ update }</center>
                         }
 
@@ -43,9 +36,7 @@
 
 
 
-        <td><a href="/deleteaward/@a.id">  delete      </a></td>
-        }
-</table>
+
 
 <div class="pull-right" > <button type="button" class="btn btn-info btn-lg " data-toggle="modal" data-target="#awardModal"><span class="glyphicon glyphicon-plus" aria-hidden="true">Add Award</span></button>
 </div>
@@ -79,3 +70,50 @@
 
 }@{param}
 
+<script type="text/javascript">
+function refreshTable() {
+$.get("getawards", function(data, status){
+                $("#awardtable").html(data)
+        });
+}
+
+refreshTable();
+
+       $("#awardForm").submit(function(event) {
+            event.preventDefault();
+
+            var values = $(this).serialize();
+            $.ajax({
+            url: "add",
+            type: "post",
+            data: values,
+            success: function (data) {
+                $("#awardModal").modal('toggle');
+                refreshTable();
+            }
+
+        });
+     });
+
+     $("#updateForm").submit(function(event) {
+    event.preventDefault();
+    $("#awardtable").html('');
+         $.ajax({
+            url: "update",
+            type: "post",
+            data: $(this).serialize(),
+            success: function (data) {
+                $("#updateModal").modal('toggle');
+                $("#awardtable").html(data);
+                refreshTable();
+            }
+        });
+
+     });
+
+
+
+
+
+
+</script>

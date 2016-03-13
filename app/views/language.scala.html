@@ -1,16 +1,10 @@
-@(param:String)(list:List[Language])(langForm:Form[(String,String)])(updateForm:Form[(String,String,String)])(implicit msg:Messages)
+@(param:String)(langForm:Form[(String,String)])(updateForm:Form[(String,String,String)])(implicit msg:Messages)
 @import b3.vertical.fieldConstructor
 @views.html.main("Language"){
-<table class="table">  <tr> <td>ID</td><td>NAME</td><td>FLUENCY</td><td>UPDATE</td><td>DELETE</td>  </tr>
 
+<div id="languagetable"></div>
 
-    @for(a <- list){
-
-<tr><td>@a.id</td>
-    <td>@a.name</td>
-    <td>@a.fluency</td>
-    <td><button type="button" class="btn btn-link " data-toggle="modal" data-target="#myModal1">Update</button></td>
-    <div id="myModal1" class="modal fade" role="dialog">
+<div id="updateModal" class="modal fade" role="dialog">
         <div class="modal-dialog">
 
             <!-- Modal content-->
@@ -21,9 +15,9 @@
                 </div>
                 <div class="modal-body">
                     @b3.form(action=routes.LanguageController.update,'id->"updateForm") {
-                    @b3.text(updateForm("id"), 'placeholder -> "ID",'value -> a.id,'Style->"display:none")
-                    @b3.text(updateForm("name"), '_label -> "NAME", 'placeholder -> "NAME",'value -> a.name )
-                    @b3.text(updateForm("fluency"), '_label -> "FLUENCY", 'placeholder -> "fluency",'value -> a.fluency )
+                    @b3.text(updateForm("id"), 'placeholder -> "ID",'Style->"display:none", 'id->"id")
+                    @b3.text(updateForm("name"), '_label -> "NAME", 'placeholder -> "NAME", 'id->"name")
+                    @b3.text(updateForm("fluency"), '_label -> "FLUENCY", 'placeholder -> "fluency", 'id->"fluency")
                     <center>@b3.submit('class -> "btn btn-success"){ update }</center>
                     }
                 </div>
@@ -36,15 +30,10 @@
     </div>
 
 
-
-    <td><a href="/deletelanguage/@a.id">  delete      </a></td>
-    }
-    </table>
-
-<div class="pull-right"> <button type="button" class="btn btn-info btn-lg " data-toggle="modal" data-target="#languageModal">Add Language</button>
+<div class="pull-right"> <button type="button" class="btn btn-info btn-lg " data-toggle="modal" data-target="#addModal">Add Language</button>
 </div>
 <!-- Modal -->
-<div id="languageModal" class="modal fade" role="dialog">
+<div id="addModal" class="modal fade" role="dialog">
     <div class="modal-dialog">
 
         <!-- Modal content-->
@@ -54,7 +43,7 @@
                 <h4 class="modal-title" style="color:RED;font-weight:BOLD">Add Language</h4>
             </div>
             <div class="modal-body">
-                @b3.form(routes.LanguageController.add,'id->"languageForm") {
+                @b3.form(routes.LanguageController.add,'id->"addForm") {
                 @b3.text(langForm("name"), '_label -> "NAME", 'placeholder -> "name" )
                 @b3.text(langForm("fluency"), '_label -> "FLUENCY", 'placeholder -> "Fluency" )
                 <center>@b3.submit('class -> "btn btn-success"){ Add  }</center>
@@ -70,21 +59,43 @@
 </div>
 }@{param}
 
-<script>
-$(document).ready(function(){
+<script type="text/javascript">
+function refreshTable() {
+$.get("getlanguages", function(data, status){
+                $("#languagetable").html(data)
+        });
+}
 
-$('#languageForm').on('submit',function(e){
-e.preventDefault();
-$.ajax({
-type     : "POST",
-cache    : false,
-url      : $(this).attr('action'),
-data     : $(this).serialize(),
+refreshTable();
 
-$("#languageModal").modal('hide');
+       $("#addForm").submit(function(event) {
+            event.preventDefault();
 
-});
+            $.ajax({
+            url: "addlanguage",
+            type: "post",
+            data: $(this).serialize(),
+            success: function (data) {
+                $("#addModal").modal('toggle');
+                refreshTable();
+            }
 
-});
-});
-    </script>
+        });
+     });
+
+     $("#updateForm").submit(function(event) {
+    event.preventDefault();
+    $("#languagetable").html('');
+         $.ajax({
+            url: "updatelanguage",
+            type: "post",
+            data: $(this).serialize(),
+            success: function (data) {
+                $("#updateModal").modal('toggle');
+                $("#languagetable").html(data);
+                refreshTable();
+            }
+        });
+
+     });
+</script>
