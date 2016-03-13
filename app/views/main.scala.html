@@ -21,20 +21,24 @@
     <div class="jumbotron" style="background-color: cornsilk ; margin-bottom:0px;">
     <div class="pull-right">
         @if(title != "login"){
-          WELCOME  | <a href="/logout" onfocus="color:red"> LOGOUT </a> |
+          WELCOME  | <a id="log" href="/logout" onfocus="color:red"> LOGOUT </a> |
         }
     </div>
-    <h1 style="font-weight:bolder; color:teal "><strong>KNOLDUS</strong> <small style="font-style: italic;">tree of knowledge</small></h1>
+        <u ><h1 style="font-weight:bolder; color:teal"><strong>KNOLDUS</u></strong> <small style="font-style: italic;">tree of knowledge</small></h1>
 </div>
-       @if( title == "login" ) {
+       @if( title == "Login" ) {
        <div class="container">
            <div class="row">
                <div class="col-md-4"></div>
-               <div class="col-md-5">@content</div>
+               <div class="col-md-5">
+                   <div class="panel panel-primary">
+                       <div class="panel-heading">@title</div>
+                       <div class="panel-body">@content</div>
+                   </div></div>
            </div>
        </div>
         }else{
-    <ul class="nav nav-tabs">
+    <ul class="nav nav-tabs navbar-inverse">
 
         <li role="presentation"><a href="/show">HOME</a></li>
         <li role="presentation"><a id="awards" href="/awards">AWARDS</a></li>

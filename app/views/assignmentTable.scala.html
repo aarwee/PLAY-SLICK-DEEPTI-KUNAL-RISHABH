@@ -1,6 +1,7 @@
 @(param:String)(list:List[Assignment])
 <table id="awards" class="table">
-    <tr> <td> ID </td><td>NAME</td><td>MARKS</td><td>DATE</td><td>REMARKS</td><td>UPDATE</td><td>DELETE</td>  </tr>
+    <tr> <td> ID </td><td>NAME</td><td>MARKS</td><td>DATE</td><td>REMARKS</td>@if(param =="true"){
+        <td>UPDATE</td><td>DELETE</td>}  </tr>
     @for(a <- list){
 
     <tr><td>@a.id</td>
@@ -8,8 +9,8 @@
         <td>@a.marks</td>
         <td>@a.date</td>
         <td>@a.remarks</td>
-        @if(param=="true"){  <td><button type="button"  value="@a.id" class="btn btn-link update" data-toggle="modal" data-target="#updateModal">Update</button></td>
-        <td><button class="btn btn-danger delete" value="@a.id">  delete      </button></td>}
+        @if(param=="true"){  <td><button type="button"  value="@a.id" class="btn btn-success update" data-toggle="modal" data-target="#updateModal"><span class="glyphicon glyphicon-ok" aria-hidden="true">  update  </span></button></td>
+        <td><button class="btn btn-danger delete" value="@a.id"><span class="glyphicon glyphicon-remove" aria-hidden="true">  delete  </span> </button></td>}
 
         }
 </table>

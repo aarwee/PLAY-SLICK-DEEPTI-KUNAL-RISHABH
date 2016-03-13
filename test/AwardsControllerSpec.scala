@@ -74,5 +74,16 @@ class AwardsControllerSpec extends PlaySpecification with Mockito {
       status(res) must equalTo(303)
     }
 
+    "get awards" in new WithApplication() {
+      when(service.getByUserId(1)).thenReturn(Future(List(Awards("microsoft", "very good","2016", 1))))
+      val res = call(controller.getAwards, FakeRequest(GET, "/getawards").withSession("id" -> "1"))
+      status(res) must equalTo(200)
+    }
+    "get awards by id" in new WithApplication() {
+      when(service.getByUserId(1)).thenReturn(Future(List(Awards("microsoft", "very good","2016", 1))))
+      val res = call(controller.getById(1), FakeRequest(GET, "/getawards").withSession("id" -> "1"))
+      status(res) must equalTo(200)
+    }
+
 
   }}

@@ -1,12 +1,12 @@
 @(loginForm:Form[(String,String)])(implicit flash:Flash,msg:Messages)
 @import b3.vertical.fieldConstructor
 
-@views.html.main("login"){
+@views.html.main("Login"){
 <p>@flash.get("error")</p>
 @b3.form(routes.HomeController.validateUser) {
 @b3.email( loginForm("email"), '_label -> "Email", 'placeholder -> "example@mail.com" )
 @b3.password( loginForm("password"), '_label -> "Password", 'placeholder -> "Password" )
-<center>@b3.submit('class -> "btn btn-default"){ Sign in }</center>
+<center>@b3.submit('class -> "btn btn-primary"){ Sign in }</center>
 }
 
 }@{"admi"}

@@ -6,10 +6,10 @@
     <tr><td>@a.id</td>
         <td>@a.name</td>
         <td>@a.fluency</td>
-        @if(param=="true"){  <td><button type="button"  value="@a.id" class="btn btn-link update" data-toggle="modal" data-target="#updateModal">Update</button></td>
-        <td><button class="btn btn-danger delete" value="@a.id">  delete      </button></td>}
+          <td><button type="button"  value="@a.id" class="btn btn-success update" data-toggle="modal" data-target="#updateModal"><span class="glyphicon glyphicon-ok" aria-hidden="true">  update  </span> </button></td>
+        <td><button class="btn btn-danger delete" value="@a.id"> <span class="glyphicon glyphicon-remove" aria-hidden="true">  delete  </span>      </button></td>}
 
-        }
+
 </table>
 <script>
     $(".update").click(function(){

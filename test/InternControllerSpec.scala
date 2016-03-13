@@ -1,8 +1,4 @@
-/**
-  * Created by kunal on 11/3/16.
-  */
 
-class InternControllerSpec {
   import controllers.InternController
   import models.{User, UserRepo}
   import org.mockito.Mockito._
@@ -33,6 +29,6 @@ class InternControllerSpec {
 
 
     }
-  }
+
 
 }
