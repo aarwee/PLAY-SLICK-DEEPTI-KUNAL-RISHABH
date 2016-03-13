@@ -15,7 +15,7 @@ class DashboardControllerSpec extends PlaySpecification with Mockito {
     "show dashboard" in new WithApplication() {
 
 
-      val res=route(FakeRequest(GET,"/show").withSession("admin"->"true")).get
+      val res=route(FakeRequest(GET,"/show").withSession("admin"->"true","id"->"1")).get
 
       status(res) must equalTo(200)
     }

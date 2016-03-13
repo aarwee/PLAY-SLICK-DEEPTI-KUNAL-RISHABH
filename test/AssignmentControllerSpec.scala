@@ -21,11 +21,11 @@ class AssignmentControllerSpec  extends PlaySpecification with Mockito {
     val service=mock[AssignmentRepo]
     val controller=new AssignmentController(service)
 
-    "show planguages" in new WithApplication() {
+    "show assignment" in new WithApplication() {
 
       when(service.getAll).thenReturn(Future(List(Assignment("scala","2015-08-08",22,"good",1))))
 
-      val res=call(controller.show,FakeRequest(GET,"/programming").withSession("admin"->"true"))
+      val res=call(controller.show,FakeRequest(GET,"/assignment").withSession("admin"->"true","id"->"1"))
 
       println(res)
       status(res) must equalTo(200)

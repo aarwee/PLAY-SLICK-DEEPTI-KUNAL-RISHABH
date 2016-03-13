@@ -25,7 +25,7 @@ class AwardsControllerSpec extends PlaySpecification with Mockito {
 
       when(service.getAll).thenReturn(Future(List(Awards("scjp","good","1992",1,1))))
 
-      val res=call(controller.show,FakeRequest(GET,"/awards").withSession("admin"->"true"))
+      val res=call(controller.show,FakeRequest(GET,"/awards").withSession("admin"->"true","id"->"1"))
 
       println(res)
       status(res) must equalTo(200)
@@ -50,7 +50,7 @@ class AwardsControllerSpec extends PlaySpecification with Mockito {
 
       status(res) must equalTo(303)
     }
-    "update languages" in new WithApplication() {
+    "update awards" in new WithApplication() {
 
       when(service.update(1,"scjp","good","2000",2)).thenReturn(Future(1))
 

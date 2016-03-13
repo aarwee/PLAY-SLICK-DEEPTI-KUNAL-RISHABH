@@ -20,7 +20,7 @@ class LanguageControllerSpec extends PlaySpecification with Mockito {
     "show languages" in new WithApplication() {
 
       when(service.getAll).thenReturn(Future(List(Language("hindi","good",1,1))))
-      val res=call(controller.show,FakeRequest(GET,"/language").withSession("admin"->"true"))
+      val res=call(controller.show,FakeRequest(GET,"/language").withSession("admin"->"true","id"->"1"))
       status(res) must equalTo(200)
 
     }

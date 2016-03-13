@@ -21,7 +21,7 @@ class ProgrammingControllerSpec extends PlaySpecification with Mockito {
 
       when(service.getAll).thenReturn(Future(List(Programming("java","good",1,1))))
 
-      val res=call(controller.show,FakeRequest(GET,"/programming").withSession("admin"->"true"))
+      val res=call(controller.show,FakeRequest(GET,"/programming").withSession("admin"->"true","id"->"1"))
 
       println(res)
       status(res) must equalTo(200)
