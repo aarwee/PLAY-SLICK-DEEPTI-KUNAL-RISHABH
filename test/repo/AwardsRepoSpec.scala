@@ -19,7 +19,7 @@ class AwardsRepoSpec extends Specification {
 
   def awardsRepo(implicit app: Application) = Application.instanceCache[AwardsRepo].apply(app)
 
-  "User repository" should {
+  "Awards repository" should {
 
     "get a record" in new WithApplication {
       val result = awardsRepo.getAll
@@ -42,6 +42,16 @@ class AwardsRepoSpec extends Specification {
       val result = awardsRepo.update(2, "NCR Certificate", "worst", "2016", 3)
       val response = Await.result(result, Duration.Inf)
       response === 1
+    }
+    "get a record by id" in new WithApplication {
+      val result = awardsRepo.getById(2)
+      val response = Await.result(result, Duration.Inf)
+      response.get.name === "sun certificate"
+    }
+    "get a record by User id" in new WithApplication {
+      val result = awardsRepo.getByUserId(1)
+      val response = Await.result(result, Duration.Inf)
+      response.head.name === "microsoft"
     }
   }
 }

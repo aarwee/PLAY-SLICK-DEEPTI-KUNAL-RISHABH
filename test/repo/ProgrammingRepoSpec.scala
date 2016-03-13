@@ -41,7 +41,16 @@ class ProgrammingRepoSpec extends Specification {
       val response = Await.result(result,Duration.Inf)
       response === 1
     }
-
+    "get a record by id" in new WithApplication {
+      val result = progRepo.getById(1)
+      val response = Await.result(result,Duration.Inf)
+      response.get.name === "groovy"
+    }
+    "get a record by id" in new WithApplication {
+      val result = progRepo.getById(1)
+      val response = Await.result(result,Duration.Inf)
+      response.head.name === "groovy"
+    }
 
 
 
